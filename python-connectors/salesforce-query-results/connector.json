@@ -14,12 +14,37 @@
             "type": "SEPARATOR"
         },
         {
+            "name": "auth_type",
+            "label": "Authentication type",
+            "type": "SELECT",
+            "selectChoices": [
+                {
+                    "value": "basic_login",
+                    "label": "Login preset"
+                },
+                {
+                    "value": "legacy",
+                    "label": "JSON token"
+                }
+            ],
+            "mandatory": true,
+            "defaultValue": "basic_login"
+        },
+        {
+            "name": "basic_login",
+            "label": "Basic login",
+            "type": "PRESET",
+            "parameterSetId": "salesforce-login",
+            "visibilityCondition": "model.auth_type == 'basic_login'"
+        },
+        {
             "name": "token",
             "label": "JSON token",
             "description": "JSON, or path to a file containing the JSON",
             "type": "STRING",
             "mandatory" : true,
-            "defaultValue": "${dip.home}/SalesforceToken.json"
+            "defaultValue": "${dip.home}/SalesforceToken.json",
+            "visibilityCondition": "model.auth_type == 'legacy'"
         },
         {
             "name": "sep2",

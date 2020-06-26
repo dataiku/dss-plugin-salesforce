@@ -1,0 +1,56 @@
+{
+    "meta" : {
+        "label": "Salesforce login",
+        "description": "Basic login details",
+        "icon": "icon-cloud"
+    },
+    "defaultDefinableInline": true,
+    "defaultDefinableAtProjectLevel": true,
+    "pluginParams": [
+    ],
+
+    "params": [
+        {
+            "name": "client_id",
+            "label": "Consumer key",
+            "type": "STRING",
+            "description": "From your Salesforce App settings",
+            "mandatory": true
+        },
+        {
+            "name": "client_secret",
+            "label": "Consumer secret",
+            "type": "PASSWORD",
+            "description": "From your Salesforce App settings",
+            "mandatory": true
+        },
+        {
+            "name": "username",
+            "label": "Username",
+            "type": "STRING",
+            "description": "Usually your email address",
+            "mandatory": true
+        },
+        {
+            "name": "password",
+            "label": "Password",
+            "type": "PASSWORD",
+            "description": "",
+            "mandatory": true
+        },
+        {
+            "name": "security_token",
+            "label": "Security token",
+            "type": "PASSWORD",
+            "description": "Sent from Salesforce by email, see doc.",
+            "mandatory": true
+        },
+        {
+            "name": "is_test_environment",
+            "label": "Test environment",
+            "type": "BOOLEAN",
+            "description": "",
+            "defaultValue": false
+        }
+    ]
+}

@@ -3,11 +3,11 @@ This files contains kind of "wrapper functions" for Salesforce API and utility f
 """
 
 import json
-import datetime
 import requests
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 import os.path
+
 
 # Basic logging
 def log(*args):
@@ -16,18 +16,20 @@ def log(*args):
             thing = json.dumps(thing)
         print('Salesforce plugin - %s' % thing)
 
+
 # Session object for requests
-s = requests.Session()
+session = requests.Session()
 # Retry strategy (cf http://stackoverflow.com/a/35504626/4969056)
 retries = Retry(total=3,
                 backoff_factor=2)
-s.mount('https://', HTTPAdapter(max_retries=retries))
+session.mount('https://', HTTPAdapter(max_retries=retries))
 
 # Global variables
 API_BASE_URL = ''
 ACCESS_TOKEN = ''
 
-def make_api_call(action, parameters = {}, method = 'get', data = {}):
+
+def make_api_call(action, parameters={}, method='get', data={}, ignore_errors=False):
     """
     Makes an API call to SalesForce
     Parameters: action (the URL), params, method (GET or POST), data for POST
@@ -38,16 +40,46 @@ def make_api_call(action, parameters = {}, method = 'get', data = {}):
         'Authorization': 'Bearer %s' % ACCESS_TOKEN
     }
     if method == 'get':
-        r = s.request(method, API_BASE_URL+action, headers=headers, params=parameters, timeout=30)
+        response = session.request(method, API_BASE_URL+action, headers=headers, params=parameters, timeout=30)
     elif method == 'post':
-        r = s.request(method, API_BASE_URL+action, headers=headers, data=data, params=parameters, timeout=10)
+        response = session.request(method, API_BASE_URL+action, headers=headers, data=data, params=parameters, timeout=10)
+    elif method == 'patch':
+        response = session.request(method, API_BASE_URL+action, headers=headers, data=json.dumps(data), params=parameters, timeout=10)
     else:
-        raise ValueError('Method should be get or post.')
-    log('API %s call: %s' % (method, r.url) )
-    if ((r.status_code == 200 and method == 'get') or (r.status_code == 201 and method == 'post')):
-        return r.json()
+        raise ValueError('Method should be get, post or patch.')
+    log('API %s call: %s' % (method, response.url))
+    if ((response.status_code == 200 and method == 'get') or (response.status_code == 201 and method == 'post')):
+        return response.json()
+    elif (response.status_code == 204 and method == 'patch'):
+        return {}
+    elif ignore_errors:
+        return {"error": response.status_code}
     else:
-        raise ValueError('API error when calling %s : %s' % (r.url, r.content))
+        raise ValueError('API error when calling %s : %s' % (response.url, response.content))
+
+
+def get_token(config):
+    auth_type = config.get("auth_type", "legacy")
+    if auth_type == "legacy":
+        return get_json(config.get("token"))
+    auth_details = config.get(auth_type)
+    data = {
+        "grant_type": "password",
+        "client_id": auth_details.get("client_id"),
+        "client_secret": auth_details.get("client_secret"),
+        "username": auth_details.get("username"),
+        "password": "{}{}".format(auth_details.get("password"), auth_details.get("security_token"))
+    }
+    response = requests.post("https://login.salesforce.com/services/oauth2/token", data=data)
+    return response.json()
+
+
+def update_token(config):
+    token = get_token(config)
+    API_BASE_URL = token.get('instance_url', None)
+    ACCESS_TOKEN = token.get('access_token', None)
+    if API_BASE_URL is None or ACCESS_TOKEN is None:
+        raise Exception("JSON token must contain access_token and instance_url")
 
 
 def get_json(input):
@@ -62,32 +94,36 @@ def get_json(input):
                 obj = json.load(f)
                 f.close()
         except Exception as e:
+            log("Error {}".format(e))
             raise ValueError("Unable to read the JSON file: %s" % input)
     else:
         try:
             obj = json.loads(input)
         except Exception as e:
+            log("Error {}".format(e))
             raise ValueError("Unable to read the JSON: %s" % input)
 
     return obj
 
-def iterate_dict(d, parents=[]):
+
+def iterate_dict(dictionary, parents=[]):
     """
     This function iterates over one dict and returns a list of tuples: (list_of_keys, value)
     Usefull for looping through a multidimensional dictionary.
     """
 
-    r = []
-    for k,v in d.iteritems():
-        if isinstance(v, dict):
-            r.extend(iterate_dict(v, parents + [k]))
-        elif isinstance(v, list):
-            r.append((parents + [k], v))
+    ret = []
+    for key, value in dictionary.iteritems():
+        if isinstance(value, dict):
+            ret.extend(iterate_dict(value, parents + [key]))
+        elif isinstance(value, list):
+            ret.append((parents + [key], value))
         else:
-            r.append((parents + [k], v))
-    return r
+            ret.append((parents + [key], value))
+    return ret
 
-def transform_json_to_dss_columns(row_obj):
+
+def unnest_json(row_obj):
     """
     Iterates over a JSON to tranfsorm each element into a column.
     Example:
@@ -97,4 +133,3 @@ def transform_json_to_dss_columns(row_obj):
     for keys, value in iterate_dict(row_obj):
         row[".".join(keys)] = value if value is not None else ''
     return row
-

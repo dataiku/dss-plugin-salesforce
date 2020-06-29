@@ -1,7 +1,7 @@
 {
     "meta" : {
         "label": "Salesforce login",
-        "description": "Basic login details",
+        "description": "Salesforce login details",
         "icon": "icon-cloud"
     },
     "defaultDefinableInline": true,
@@ -12,42 +12,42 @@
     "params": [
         {
             "name": "client_id",
-            "label": "Consumer key",
+            "label": "Consumer Key",
             "type": "STRING",
-            "description": "From your Salesforce App settings",
+            "description": "Client ID / Consumer Key of the Connected App",
             "mandatory": true
         },
         {
             "name": "client_secret",
-            "label": "Consumer secret",
+            "label": "Consumer Secret",
             "type": "PASSWORD",
-            "description": "From your Salesforce App settings",
+            "description": "Client Secret / Consumer Secret of the Connected App",
             "mandatory": true
         },
         {
             "name": "username",
-            "label": "Username",
+            "label": "Email",
             "type": "STRING",
-            "description": "Usually your email address",
+            "description": "The email you use to connect to the Salesforce instance",
             "mandatory": true
         },
         {
             "name": "password",
             "label": "Password",
             "type": "PASSWORD",
-            "description": "",
+            "description": "The password you use to connect to the Salesforce instance",
             "mandatory": true
         },
         {
             "name": "security_token",
             "label": "Security token",
             "type": "PASSWORD",
-            "description": "Sent from Salesforce by email, see doc.",
+            "description": "Sent from Salesforce by email",
             "mandatory": true
         },
         {
             "name": "is_test_environment",
-            "label": "Test environment",
+            "label": "Sandbox instance?",
             "type": "BOOLEAN",
             "description": "",
             "defaultValue": false

@@ -1,7 +1,7 @@
 {
     "meta" : {
-        "label": "Salesforce - Write to object table",
-        "description": "Blablabla bla bla."
+        "label": "Salesforce - Write recipe",
+        "description": "Create or upate records of an Object"
     },
 
     "kind": "PYTHON",
@@ -9,6 +9,7 @@
     "inputRoles": [
         {
             "name": "incoming_dataset_name",
+            "label": "Source dataset",
             "arity": "UNARY",
             "required": true,
             "acceptsDataset": true
@@ -18,24 +19,26 @@
     "outputRoles": [
         {
             "name": "main",
+            "label": "Dataset with results",
             "arity": "UNARY",
-            "required": true
+            "required": true,
+            "acceptsDataset": true
         }
     ],
 
     "params": [
         {
             "name": "auth_type",
-            "label": "Authentication type",
+            "label": "Credentials",
             "type": "SELECT",
             "selectChoices": [
                 {
                     "value": "basic_login",
-                    "label": "Login preset"
+                    "label": "Via plugin preset"
                 },
                 {
                     "value": "legacy",
-                    "label": "JSON token"
+                    "label": "Via JSON token (legacy)"
                 }
             ],
             "mandatory": true,
@@ -43,7 +46,7 @@
         },
         {
             "name": "basic_login",
-            "label": "Basic login",
+            "label": "Salesforce login",
             "type": "PRESET",
             "parameterSetId": "salesforce-login",
             "visibilityCondition": "model.auth_type == 'basic_login'"

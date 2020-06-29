@@ -19,20 +19,31 @@
             "type": "SELECT",
             "selectChoices": [
                 {
+                    "value": "oauth",
+                    "label": "Via Salesforce SSO"
+                },
+                {
                     "value": "basic_login",
-                    "label": "Login preset"
+                    "label": "Via plugin preset"
                 },
                 {
                     "value": "legacy",
-                    "label": "JSON token"
+                    "label": "Via JSON token (legacy)"
                 }
             ],
             "mandatory": true,
             "defaultValue": "basic_login"
         },
         {
+            "name": "oauth",
+            "label": "Salesforce preset",
+            "type": "PRESET",
+            "parameterSetId": "oauth-credentials",
+            "visibilityCondition": "model.auth_type == 'oauth'"
+        },
+        {
             "name": "basic_login",
-            "label": "Basic login",
+            "label": "Salesforce login",
             "type": "PRESET",
             "parameterSetId": "salesforce-login",
             "visibilityCondition": "model.auth_type == 'basic_login'"

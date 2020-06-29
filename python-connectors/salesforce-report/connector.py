@@ -1,6 +1,7 @@
 from dataiku.connector import Connector
 import json
-import salesforce
+from salesforce import SalesforceClient
+from utils import log
 
 
 class MyConnector(Connector):
@@ -8,18 +9,7 @@ class MyConnector(Connector):
     def __init__(self, config):
         Connector.__init__(self, config)
 
-        auth_type = self.config.get("auth_type", "legacy")
-        if auth_type == "legacy":
-            token = salesforce.get_json(self.config.get("token"))
-        else:
-            token = salesforce.get_token(self.config)
-
-        try:
-            salesforce.API_BASE_URL = token.get('instance_url')
-            salesforce.ACCESS_TOKEN = token.get('access_token')
-        except Exception as e:
-            salesforce.log("Error {}".format(e))
-            raise ValueError("JSON token must contain access_token and instance_url")
+        self.client = SalesforceClient(self.config)
 
         self.REPORT = self.config.get("report", "")
         self.RESULT_FORMAT = self.config.get("result_format")
@@ -30,7 +20,7 @@ class MyConnector(Connector):
             return {
                 "columns": [
                     {"name": "json", "type": "object"}
-                ]   
+                ]
             }
 
         return None
@@ -38,7 +28,7 @@ class MyConnector(Connector):
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
                       partition_id=None, records_limit=-1):
 
-        results = salesforce.make_api_call("/services/data/v39.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails": True})
+        results = self.client.make_api_call("/services/data/v39.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails": True})
 
         report_format = results.get("reportMetadata").get("reportFormat")
 
@@ -46,9 +36,9 @@ class MyConnector(Connector):
             raise Exception("The format of the report is %s but the plugin only supports TABULAR." % report_format)
 
         columns = results.get("reportMetadata").get("detailColumns", [])
-        salesforce.log(columns)
+        log(columns)
 
-        salesforce.log("records_limit: %i" % records_limit)
+        log("records_limit: %i" % records_limit)
 
         n = 0
 

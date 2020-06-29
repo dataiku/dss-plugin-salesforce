@@ -1,6 +1,7 @@
 from dataiku.connector import Connector
 import json
-import salesforce
+from salesforce import SalesforceClient
+from utils import unnest_json, log
 
 
 class MyConnector(Connector):
@@ -8,18 +9,7 @@ class MyConnector(Connector):
     def __init__(self, config):
         Connector.__init__(self, config)
 
-        auth_type = self.config.get("auth_type", "legacy")
-        if auth_type == "legacy":
-            token = salesforce.get_json(self.config.get("token"))
-        else:
-            token = salesforce.get_token(self.config)
-        try:
-            salesforce.API_BASE_URL = token.get('instance_url')
-            salesforce.ACCESS_TOKEN = token.get('access_token')
-
-        except Exception as e:
-            salesforce.log("Error {}".format(e))
-            raise ValueError("JSON token must contain access_token and instance_url")
+        self.client = SalesforceClient(self.config)
 
         self.OBJECT = self.config.get("object", "")
         self.LIMIT = self.config.get("limit", "")
@@ -41,9 +31,9 @@ class MyConnector(Connector):
 
         # First, building an SOQL query
 
-        describe = salesforce.make_api_call('/services/data/v39.0/sobjects/%s/describe' % self.OBJECT)
+        describe = self.client.make_api_call('/services/data/v39.0/sobjects/%s/describe' % self.OBJECT)
 
-        salesforce.log(describe)
+        log(describe)
 
         if not describe.get('queryable', False):
             raise ValueError("This object is not queryable")
@@ -56,14 +46,14 @@ class MyConnector(Connector):
                 self.LIMIT
             )
 
-        salesforce.log(query)
+        log(query)
 
         # Then, running the SOQL query
 
-        results = salesforce.make_api_call('/services/data/v39.0/queryAll/', {'q': query})
+        results = self.client.make_api_call('/services/data/v39.0/queryAll/', {'q': query})
 
-        salesforce.log("records_limit: %i" % records_limit)
-        salesforce.log("length initial request: %i" % len(results.get('records')))
+        log("records_limit: %i" % records_limit)
+        log("length initial request: %i" % len(results.get('records')))
 
         n = 0
 
@@ -77,7 +67,7 @@ class MyConnector(Connector):
             next = None
 
         while next:
-            results = salesforce.make_api_call(next)
+            results = self.client.make_api_call(next)
             for obj in results.get('records'):
                 n = n + 1
                 if records_limit < 0 or n <= records_limit:
@@ -91,4 +81,4 @@ class MyConnector(Connector):
         if self.RESULT_FORMAT == 'json':
             return {"json": json.dumps(row)}
         else:
-            return salesforce.unnest_json(row)
+            return unnest_json(row)

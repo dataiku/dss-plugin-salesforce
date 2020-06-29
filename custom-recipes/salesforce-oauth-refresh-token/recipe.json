@@ -1,7 +1,7 @@
 {
     "meta" : {
-        "label": "Salesforce - Refresh the JSON token",
-        "description": "Recipe to refresh the JSON token used by datasets to fetch the API. It is based on the Username-Password OAuth Authentication Flow."
+        "label": "Salesforce - Refresh the JSON token (legacy)",
+        "description": "Recipe to refresh the JSON token and save it on disk. Alternatively, you can use plugin presets."
     },
 
     "kind": "PYTHON",
@@ -19,14 +19,14 @@
     "params": [
         {
             "name": "client_id",
-            "label": "Client ID",
+            "label": "Consumer Key",
             "description": "Client ID / Consumer Key of the Connected App",
             "type": "STRING",
             "mandatory": true
         },
         {
             "name": "client_secret",
-            "label": "Client Secret",
+            "label": "Consumer Secret",
             "description": "Client Secret / Consumer Secret of the Connected App",
             "type": "PASSWORD",
             "mandatory": true
@@ -34,14 +34,14 @@
         {
             "name": "email",
             "label": "Email",
-            "description": "The email you use to connect to the Salesforce instance.",
+            "description": "The email you use to connect to the Salesforce instance",
             "type": "STRING",
             "mandatory": true
         },
         {
             "name": "password",
             "label": "Password and Security Token",
-            "description": "Concatenate your password with your security token.",
+            "description": "Concatenate your password with your security token",
             "type": "PASSWORD",
             "mandatory": true
         },

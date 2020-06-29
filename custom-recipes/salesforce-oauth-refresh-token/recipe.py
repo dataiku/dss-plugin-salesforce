@@ -40,15 +40,15 @@ if sandbox:
 else:
     url = "https://login.salesforce.com/services/oauth2/token"
 
-print "Debug TLS:"
+print ("Debug TLS:")
 
-# print requests.get("https://www.howsmyssl.com/a/check").text
+# print (requests.get("https://www.howsmyssl.com/a/check").text)
 
-print "Salesforce API call: %s" % url
+print ("Salesforce API call: %s" % url)
 
 r = requests.post(url, data=params)
 
-print r.headers
+print (r.headers)
 
 # Hide if required
 if hide_access_token:

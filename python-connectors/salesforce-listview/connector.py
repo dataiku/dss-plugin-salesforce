@@ -1,6 +1,7 @@
 from dataiku.connector import Connector
 import json
-import salesforce
+from salesforce import SalesforceClient
+from utils import unnest_json, log
 
 
 class MyConnector(Connector):
@@ -8,18 +9,7 @@ class MyConnector(Connector):
     def __init__(self, config):
         Connector.__init__(self, config)
 
-        auth_type = self.config.get("auth_type", "legacy")
-        if auth_type == "legacy":
-            token = salesforce.get_json(self.config.get("token"))
-        else:
-            token = salesforce.get_token(self.config)
-
-        try:
-            salesforce.API_BASE_URL = token.get('instance_url')
-            salesforce.ACCESS_TOKEN = token.get('access_token')
-        except Exception as e:
-            salesforce.log("Error {}".format(e))
-            raise ValueError("JSON token must contain access_token and instance_url")
+        self.client = SalesforceClient(self.config)
 
         self.OBJECT = self.config.get("object", "")
         self.LIST = self.config.get("listview", "")
@@ -38,26 +28,25 @@ class MyConnector(Connector):
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
                       partition_id=None, records_limit=-1):
 
-        describe = salesforce.make_api_call('/services/data/v39.0/sobjects/%s/listviews/%s/describe' % (self.OBJECT, self.LIST))
+        describe = self.client.make_api_call('/services/data/v39.0/sobjects/%s/listviews/%s/describe' % (self.OBJECT, self.LIST))
 
-        salesforce.log(describe)
+        log(describe)
 
         query = describe.get('query', None)
 
         if query is None or len(query) < 1:
             raise ValueError("Not able to find a query for this List View")
 
-        results = salesforce.make_api_call('/services/data/v39.0/queryAll/', {'q': query})
+        results = self.client.make_api_call('/services/data/v39.0/queryAll/', {'q': query})
 
-        salesforce.log("records_limit: %i" % records_limit)
-        salesforce.log("length initial request: %i" % len(results.get('records')))
+        log("records_limit: %i" % records_limit)
+        log("length initial request: %i" % len(results.get('records')))
 
         n = 0
 
         for obj in results.get('records'):
             n = n + 1
             if records_limit < 0 or n <= records_limit:
-                #salesforce.log("row %i" % n)
                 yield self._format_row_for_dss(obj)
 
         next = results.get('nextRecordsUrl', None)
@@ -65,11 +54,10 @@ class MyConnector(Connector):
             next = None
 
         while next:
-            results = salesforce.make_api_call(next)
+            results = self.client.make_api_call(next)
             for obj in results.get('records'):
                 n = n + 1
                 if records_limit < 0 or n <= records_limit:
-                    #salesforce.log("row %i" % n)
                     yield self._format_row_for_dss(obj)
             next = results.get('nextRecordsUrl', None)
             if records_limit >= 0 and n >= records_limit:
@@ -79,4 +67,4 @@ class MyConnector(Connector):
         if self.RESULT_FORMAT == 'json':
             return {"json": json.dumps(row)}
         else:
-            return salesforce.unnest_json(row)
+            return unnest_json(row)

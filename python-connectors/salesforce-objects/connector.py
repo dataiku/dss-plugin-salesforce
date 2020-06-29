@@ -1,6 +1,7 @@
 from dataiku.connector import Connector
 import json
-import salesforce
+from salesforce import SalesforceClient
+from utils import log
 
 
 class MyConnector(Connector):
@@ -8,18 +9,7 @@ class MyConnector(Connector):
     def __init__(self, config):
         Connector.__init__(self, config)
 
-        auth_type = self.config.get("auth_type", "legacy")
-        if auth_type == "legacy":
-            token = salesforce.get_json(self.config.get("token"))
-        else:
-            token = salesforce.get_token(self.config)
-
-        try:
-            salesforce.API_BASE_URL = token.get('instance_url')
-            salesforce.ACCESS_TOKEN = token.get('access_token')
-        except Exception as e:
-            salesforce.log("Error {}".format(e))
-            raise ValueError("JSON token must contain access_token and instance_url")
+        self.client = SalesforceClient(self.config)
 
         self.RESULT_FORMAT = self.config.get("result_format")
 
@@ -37,9 +27,9 @@ class MyConnector(Connector):
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
                       partition_id=None, records_limit=-1):
 
-        results = salesforce.make_api_call('/services/data/v37.0/sobjects/')
+        results = self.client.make_api_call('/services/data/v37.0/sobjects/')
 
-        salesforce.log("records_limit: {}".format(records_limit))
+        log("records_limit: {}".format(records_limit))
 
         counter = 0
 

@@ -14,7 +14,6 @@ class SalesforceClient(object):
 
     CREATE_RECORD_ACTION = "/services/data/v39.0/sobjects/{object_name}"
     UPDATE_RECORD_ACTION = "/services/data/v39.0/sobjects/{object_name}/{object_id}"
-    OAUTH2_TOKEN_URL = "https://login.salesforce.com/services/oauth2/token"
 
     def __init__(self, config):
         self.API_BASE_URL = None
@@ -28,8 +27,8 @@ class SalesforceClient(object):
             auth_details = config.get(auth_type)
             token = {}
             self.ACCESS_TOKEN = auth_details.get("salesforce_oauth", None)
-            instance_name = auth_details.get("instance_name", "")
-            self.API_BASE_URL = "https://{instance_name}.salesforce.com".format(instance_name=instance_name)
+            instance_hostname = auth_details.get("instance_hostname", "")
+            self.API_BASE_URL = "https://{instance_hostname}".format(instance_hostname=instance_hostname)
         else:
             auth_details = config.get(auth_type)
             token = self.get_token(auth_details)
@@ -37,6 +36,7 @@ class SalesforceClient(object):
             self.ACCESS_TOKEN = token.get("access_token", None)
         if self.API_BASE_URL is None or self.ACCESS_TOKEN is None:
             raise ValueError("JSON token must contain access_token and instance_url")
+
 
         # Session object for requests
         self.session = requests.Session()
@@ -108,7 +108,11 @@ class SalesforceClient(object):
             "username": auth_details.get("username"),
             "password": "{}{}".format(auth_details.get("password"), auth_details.get("security_token"))
         }
-        response = requests.post(self.OAUTH2_TOKEN_URL, data=data)
+        if auth_details.get('sandbox', False):
+            token_url = "https://test.salesforce.com/services/oauth2/token"
+        else:
+            token_url = "https://login.salesforce.com/services/oauth2/token"
+        response = requests.post(token_url, data=data)
         return response.json()
 
     def get_json(self, input):

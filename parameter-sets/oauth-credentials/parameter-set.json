@@ -23,9 +23,9 @@
             "mandatory": true
         },
         {
-            "name": "instance_name",
-            "label": "Instance Name",
-            "description": "The value before 'salesforce.com' in your browser's address bar",
+            "name": "instance_hostname",
+            "label": "Instance Hostname",
+            "description": "You can find it in your browser's address bar. For example: company.my.salesforce.com or na7.salesforce.com",
             "type": "STRING"
         }
     ]

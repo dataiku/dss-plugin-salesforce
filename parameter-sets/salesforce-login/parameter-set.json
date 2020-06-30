@@ -46,7 +46,7 @@
             "mandatory": true
         },
         {
-            "name": "is_test_environment",
+            "name": "sandbox",
             "label": "Sandbox instance?",
             "type": "BOOLEAN",
             "description": "",

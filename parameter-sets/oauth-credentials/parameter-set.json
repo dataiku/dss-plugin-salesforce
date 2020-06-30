@@ -1,7 +1,7 @@
 {
     "meta" : {
-        "label": "Salesforce OAuth credentials",
-        "description": "",
+        "label": "Salesforce login with SSO",
+        "description": "Define a preset that DSS users can use to authenticate themselves on Salesforce. The plugin will work with per-user credentials.",
         "icon": "icon-cloud"
     },
     "defaultDefinableInline": true,

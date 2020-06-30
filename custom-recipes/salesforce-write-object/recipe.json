@@ -26,20 +26,20 @@
     "params": [
         {
             "name": "auth_type",
-            "label": "Credentials",
+            "label": "Authentication method",
             "type": "SELECT",
             "selectChoices": [
                 {
                     "value": "oauth",
-                    "label": "Via Salesforce SSO"
+                    "label": "Salesforce SSO (per-user)"
                 },
                 {
                     "value": "basic_login",
-                    "label": "Via plugin preset"
+                    "label": "Salesforce login"
                 },
                 {
                     "value": "legacy",
-                    "label": "Via JSON token (legacy)"
+                    "label": "JSON token (legacy)"
                 }
             ],
             "mandatory": true,

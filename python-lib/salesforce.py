@@ -91,7 +91,7 @@ class SalesforceClient(object):
         elif ignore_errors:
             return {"error": response.status_code}
         else:
-            raise ValueError('API error when calling %s : %s' % (response.url, response.content))
+            raise ValueError('API error when calling %s : %s' % (response.url, response.text))
 
     def get_token(self, auth_details):
         """

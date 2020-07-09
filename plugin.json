@@ -4,7 +4,7 @@
 	"meta": {
 		"label": "Salesforce",
 		"description": "Fetch data from Salesforce",
-		"author": "Dataiku (Jérémy Grèze)",
+		"author": "Dataiku (Jérémy Grèze & Alexandre Bourret)",
 		"icon": "icon-cloud",
 		"licenseInfo": "Apache Software License version 2",
 		"url": "https://www.dataiku.com/dss/plugins/info/salesforce.html",

@@ -37,7 +37,6 @@ class SalesforceClient(object):
         if self.API_BASE_URL is None or self.ACCESS_TOKEN is None:
             raise ValueError("JSON token must contain access_token and instance_url")
 
-
         # Session object for requests
         self.session = requests.Session()
         # Retry strategy (cf http://stackoverflow.com/a/35504626/4969056)

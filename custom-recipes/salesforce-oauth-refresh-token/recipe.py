@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import dataiku
-from dataiku.customrecipe import *
+from dataiku.customrecipe import get_output_names_for_role, get_recipe_config
 import json
-#import salesforce
 import requests
 import datetime
 
@@ -10,10 +9,10 @@ import datetime
 output_name = get_output_names_for_role('main')[0]
 output = dataiku.Dataset(output_name)
 output.write_schema([
-    {'name':'datetime', 'type':'string'},
-    {'name':'status_code', 'type':'string'},
-    {'name':'result', 'type':'string'},
-    {'name':'path_file', 'type':'string'}
+    {'name': 'datetime', 'type': 'string'},
+    {'name': 'status_code', 'type': 'string'},
+    {'name': 'result', 'type': 'string'},
+    {'name': 'path_file', 'type': 'string'}
 ])
 
 # Read configuration
@@ -41,15 +40,15 @@ if sandbox:
 else:
     url = "https://login.salesforce.com/services/oauth2/token"
 
-print "Debug TLS:"
+print ("Debug TLS:")
 
-print requests.get("https://www.howsmyssl.com/a/check").text
+# print (requests.get("https://www.howsmyssl.com/a/check").text)
 
-print "Salesforce API call: %s" % url
+print ("Salesforce API call: %s" % url)
 
 r = requests.post(url, data=params)
 
-print r.headers
+print (r.headers)
 
 # Hide if required
 if hide_access_token:

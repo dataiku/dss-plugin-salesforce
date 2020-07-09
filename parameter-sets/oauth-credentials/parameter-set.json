@@ -1,0 +1,32 @@
+{
+    "meta" : {
+        "label": "Salesforce login with SSO",
+        "description": "Define a preset that DSS users can use to authenticate themselves on Salesforce. The plugin will work with per-user credentials.",
+        "icon": "icon-cloud"
+    },
+    "defaultDefinableInline": true,
+    "defaultDefinableAtProjectLevel": true,
+    "pluginParams": [
+    ],
+
+    "params": [
+        {
+            "name": "salesforce_oauth",
+            "type": "CREDENTIAL_REQUEST",
+            "label": "Salesforce Single Sign On",
+            "credentialRequestSettings": {
+                "type": "OAUTH2",
+                "authorizationEndpoint": "https://login.salesforce.com/services/oauth2/authorize",
+                "tokenEndpoint": "https://login.salesforce.com/services/oauth2/token",
+                "scope": "api refresh_token full"
+            },
+            "mandatory": true
+        },
+        {
+            "name": "instance_hostname",
+            "label": "Instance Hostname",
+            "description": "You can find it in your browser's address bar. For example: company.my.salesforce.com or na7.salesforce.com",
+            "type": "STRING"
+        }
+    ]
+}

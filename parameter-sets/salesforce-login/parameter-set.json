@@ -1,0 +1,56 @@
+{
+    "meta" : {
+        "label": "Salesforce login with Username-Password",
+        "description": "Define a Salesforce account.",
+        "icon": "icon-cloud"
+    },
+    "defaultDefinableInline": true,
+    "defaultDefinableAtProjectLevel": true,
+    "pluginParams": [
+    ],
+
+    "params": [
+        {
+            "name": "client_id",
+            "label": "Consumer Key",
+            "type": "STRING",
+            "description": "Client ID / Consumer Key of the Connected App",
+            "mandatory": true
+        },
+        {
+            "name": "client_secret",
+            "label": "Consumer Secret",
+            "type": "PASSWORD",
+            "description": "Client Secret / Consumer Secret of the Connected App",
+            "mandatory": true
+        },
+        {
+            "name": "username",
+            "label": "Email",
+            "type": "STRING",
+            "description": "The email you use to connect to the Salesforce instance",
+            "mandatory": true
+        },
+        {
+            "name": "password",
+            "label": "Password",
+            "type": "PASSWORD",
+            "description": "The password you use to connect to the Salesforce instance",
+            "mandatory": true
+        },
+        {
+            "name": "security_token",
+            "label": "Security token",
+            "type": "PASSWORD",
+            "description": "Sent from Salesforce by email",
+            "mandatory": true
+        },
+        {
+            "name": "sandbox",
+            "label": "Sandbox instance?",
+            "type": "BOOLEAN",
+            "description": "",
+            "defaultValue": false
+        }
+    ]
+}

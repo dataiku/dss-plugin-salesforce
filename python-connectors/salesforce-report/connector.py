@@ -1,6 +1,7 @@
 from dataiku.connector import Connector
 import json
-import salesforce
+from salesforce import SalesforceClient
+from utils import log
 
 
 class MyConnector(Connector):
@@ -8,35 +9,26 @@ class MyConnector(Connector):
     def __init__(self, config):
         Connector.__init__(self, config)
 
-        token = salesforce.get_json(self.config.get("token"))
-        try:
-            salesforce.API_BASE_URL = token.get('instance_url')
-            salesforce.ACCESS_TOKEN = token.get('access_token')
-        except Exception as e:
-            raise ValueError("JSON token must contain access_token and instance_url")
+        self.client = SalesforceClient(self.config)
 
         self.REPORT = self.config.get("report", "")
         self.RESULT_FORMAT = self.config.get("result_format")
-
 
     def get_read_schema(self):
 
         if self.RESULT_FORMAT == 'json':
             return {
-                    "columns" : [
-                        { "name" : "json", "type" : "object" }
-                    ]
-                }
+                "columns": [
+                    {"name": "json", "type": "object"}
+                ]
+            }
 
         return None
 
-
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
-                            partition_id=None, records_limit = -1):
+                      partition_id=None, records_limit=-1):
 
-        results = salesforce.make_api_call("/services/data/v39.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails":True})
-
-        #salesforce.log(report)
+        results = self.client.make_api_call("/services/data/v39.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails": True})
 
         report_format = results.get("reportMetadata").get("reportFormat")
 
@@ -44,9 +36,9 @@ class MyConnector(Connector):
             raise Exception("The format of the report is %s but the plugin only supports TABULAR." % report_format)
 
         columns = results.get("reportMetadata").get("detailColumns", [])
-        salesforce.log(columns)
+        log(columns)
 
-        salesforce.log("records_limit: %i" % records_limit)
+        log("records_limit: %i" % records_limit)
 
         n = 0
 
@@ -63,7 +55,4 @@ class MyConnector(Connector):
                     row[c] = o["label"]
             n = n + 1
             if records_limit < 0 or n <= records_limit:
-                #salesforce.log("row %i" % n)
                 yield row
-
-

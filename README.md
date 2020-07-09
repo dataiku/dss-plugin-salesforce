@@ -6,10 +6,11 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
-**Version 1.2.0 (2020-06-29)**
+**Version 1.2.0 (2020-??-??)**
 
 * New: Recipe for writing or updating a Salesforce object
-* New: Support for Salesforce SSO (OAuth2) authentication
+* New: Support two new authentication methods: Username-Password via plugin presets and SSO (OAuth2) with per-user credentials mode
+* Fixed: Python 3 comptability
 
 **Version 1.1.0 (2017-12-01)**
 

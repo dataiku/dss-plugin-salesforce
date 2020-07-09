@@ -1,4 +1,5 @@
 import json
+import six
 
 
 def iterate_dict(dictionary, parents=[]):
@@ -8,13 +9,13 @@ def iterate_dict(dictionary, parents=[]):
     """
 
     ret = []
-    for key, value in dictionary.iteritems():
+    for key, value in six.iteritems(dictionary):
         if isinstance(value, dict):
-            ret.extend(iterate_dict(value, parents + [key]))
+            ret.extend(iterate_dict(value, parents + [str(key)]))
         elif isinstance(value, list):
-            ret.append((parents + [key], value))
+            ret.append((parents + [str(key)], value))
         else:
-            ret.append((parents + [key], value))
+            ret.append((parents + [str(key)], value))
     return ret
 
 

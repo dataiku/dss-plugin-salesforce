@@ -2,6 +2,7 @@ from dataiku.connector import Connector
 import json
 from salesforce import SalesforceClient
 from utils import log
+import six
 
 
 class MyConnector(Connector):
@@ -38,7 +39,7 @@ class MyConnector(Connector):
                 row = {"json": json.dumps(obj)}
             else:
                 row = {}
-                for key, val in obj.iteritems():
+                for key, val in six.iteritems(obj):
                     if type(val) is dict:
                         row[key] = json.dumps(val)
                     else:

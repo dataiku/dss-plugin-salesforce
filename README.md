@@ -12,6 +12,8 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 * New: Support two new authentication methods: Username-Password via plugin presets and SSO (OAuth2) with per-user credentials mode
 * Fixed: Python 3 comptability
 
+If you upgrade from 1.1.0, the plugin will continue to work. However, at the first edit of the settings of a dataset, you will need to set "Authentication method =  JSON token (legacy)".
+
 **Version 1.1.0 (2017-12-01)**
 
 * Fixed: the number of rows returned by the plugin is now enforced (that fixes an issue with DSS 4.1.0)

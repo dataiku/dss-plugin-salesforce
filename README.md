@@ -6,7 +6,7 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
-**Version 1.2.0 (2020-??-??)**
+**Version 1.2.0 (2020-07-21)**
 
 * New: Recipe for writing or updating a Salesforce object
 * New: Support two new authentication methods: Username-Password via plugin presets and SSO (OAuth2) with per-user credentials mode

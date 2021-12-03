@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 1.2.1 (2020-12-03)**
+
+* Fixed: Allow empty security token
+
 **Version 1.2.0 (2020-07-21)**
 
 * New: Recipe for writing or updating a Salesforce object
@@ -53,4 +57,7 @@ If you upgrade from 1.1.0, the plugin will continue to work. However, at the fir
 * Report: support of other formats (summary and matrix reports) and asynchronous calls
 
 ### Licence
+
+Copyright 2020-2021 Dataiku SAS
+
 This plugin is distributed under the Apache License version 2.0

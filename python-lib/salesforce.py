@@ -105,7 +105,7 @@ class SalesforceClient(object):
             "client_id": auth_details.get("client_id"),
             "client_secret": auth_details.get("client_secret"),
             "username": auth_details.get("username"),
-            "password": "{}{}".format(auth_details.get("password"), auth_details.get("security_token"))
+            "password": "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
         }
         if auth_details.get('sandbox', False):
             token_url = "https://test.salesforce.com/services/oauth2/token"

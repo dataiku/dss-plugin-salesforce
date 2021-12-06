@@ -42,8 +42,7 @@
             "name": "security_token",
             "label": "Security token",
             "type": "PASSWORD",
-            "description": "Sent from Salesforce by email",
-            "mandatory": true
+            "description": "Sent from Salesforce by email"
         },
         {
             "name": "sandbox",

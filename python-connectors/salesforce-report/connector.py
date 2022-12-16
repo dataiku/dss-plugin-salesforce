@@ -28,7 +28,7 @@ class MyConnector(Connector):
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
                       partition_id=None, records_limit=-1):
 
-        results = self.client.make_api_call("/services/data/v39.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails": True})
+        results = self.client.make_api_call("/services/data/v54.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails": True})
 
         report_format = results.get("reportMetadata").get("reportFormat")
 

@@ -31,7 +31,7 @@ class MyConnector(Connector):
 
         # First, building an SOQL query
 
-        describe = self.client.make_api_call('/services/data/v39.0/sobjects/%s/describe' % self.OBJECT)
+        describe = self.client.make_api_call('/services/data/v54.0/sobjects/%s/describe' % self.OBJECT)
 
         log(describe)
 
@@ -50,7 +50,7 @@ class MyConnector(Connector):
 
         # Then, running the SOQL query
 
-        results = self.client.make_api_call('/services/data/v39.0/queryAll/', {'q': query})
+        results = self.client.make_api_call('/services/data/v54.0/queryAll/', {'q': query})
 
         log("records_limit: %i" % records_limit)
         log("length initial request: %i" % len(results.get('records')))

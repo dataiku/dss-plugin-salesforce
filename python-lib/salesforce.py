@@ -12,8 +12,8 @@ from utils import log
 
 class SalesforceClient(object):
 
-    CREATE_RECORD_ACTION = "/services/data/v39.0/sobjects/{object_name}"
-    UPDATE_RECORD_ACTION = "/services/data/v39.0/sobjects/{object_name}/{object_id}"
+    CREATE_RECORD_ACTION = "/services/data/v54.0/sobjects/{object_name}"
+    UPDATE_RECORD_ACTION = "/services/data/v54.0/sobjects/{object_name}/{object_id}"
 
     def __init__(self, config):
         self.API_BASE_URL = None

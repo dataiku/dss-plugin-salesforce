@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 1.2.2 (2023-11-14)**
+
+* Fixed: SSO preset
+
 **Version 1.2.1 (2020-12-03)**
 
 * Fixed: Allow empty security token

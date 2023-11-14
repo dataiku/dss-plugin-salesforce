@@ -31,6 +31,13 @@ def unnest_json(row_obj):
     return row
 
 
+def assert_response_ok(response):
+    if response.status_code >= 400:
+        error_message = "Error {}: {}".format(response.status_code, response.content)
+        log(error_message)
+        raise Exception(error_message)
+
+
 def log(*args):
     for thing in args:
         if type(thing) is dict:

@@ -7,7 +7,7 @@ import requests
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 import os.path
-from utils import log
+from utils import log, assert_response_ok
 
 
 class SalesforceClient(object):
@@ -93,13 +93,6 @@ class SalesforceClient(object):
             raise ValueError('API error when calling %s : %s' % (response.url, response.text))
 
     def get_token(self, auth_details):
-        """
-        auth_type = config.get("auth_type", "legacy")
-        if auth_type == "legacy":
-            return get_json(config.get("token"))
-        elif auth_type == ""
-        auth_details = config.get(auth_type)
-        """
         data = {
             "grant_type": "password",
             "client_id": auth_details.get("client_id"),
@@ -112,6 +105,7 @@ class SalesforceClient(object):
         else:
             token_url = "https://login.salesforce.com/services/oauth2/token"
         response = requests.post(token_url, data=data)
+        assert_response_ok(response)
         return response.json()
 
     def get_json(self, input):

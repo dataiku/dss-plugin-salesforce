@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 1.2.2 (2024-05-16)**
+
+* New: Pagination for 2k+ records on Salesforce report dataset
+
 **Version 1.2.1 (2020-12-03)**
 
 * Fixed: Allow empty security token

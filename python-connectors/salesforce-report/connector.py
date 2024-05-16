@@ -29,30 +29,38 @@ class MyConnector(Connector):
                       partition_id=None, records_limit=-1):
 
         results = self.client.make_api_call("/services/data/v39.0/analytics/reports/%s" % self.REPORT, parameters={"includeDetails": True})
-
-        report_format = results.get("reportMetadata").get("reportFormat")
-
-        if report_format != "TABULAR":
-            raise Exception("The format of the report is %s but the plugin only supports TABULAR." % report_format)
-
-        columns = results.get("reportMetadata").get("detailColumns", [])
-        log(columns)
-
-        log("records_limit: %i" % records_limit)
-
+        results_to_process = True
         n = 0
+        while results_to_process:
+            results_to_process = False
+            report_format = results.get("reportMetadata").get("reportFormat")
 
-        for obj in results.get("factMap").get("T!T", {}).get("rows", []):
-            arr = obj.get("dataCells", {})
-            if self.RESULT_FORMAT == 'json':
-                els = {}
-                for c, o in zip(columns, arr):
-                    els[c] = o
-                row = {"json": json.dumps(els)}
-            else:
-                row = {}
-                for c, o in zip(columns, arr):
-                    row[c] = o["label"]
-            n = n + 1
+            if report_format != "TABULAR":
+                raise Exception("The format of the report is %s but the plugin only supports TABULAR." % report_format)
+
+            columns = results.get("reportMetadata").get("detailColumns", [])
+            log(columns)
+
+            log("records_limit: %i" % records_limit)
+
+            for obj in results.get("factMap").get("T!T", {}).get("rows", []):
+                arr = obj.get("dataCells", {})
+                if self.RESULT_FORMAT == 'json':
+                    els = {}
+                    for c, o in zip(columns, arr):
+                        els[c] = o
+                    row = {"json": json.dumps(els)}
+                else:
+                    row = {}
+                    for c, o in zip(columns, arr):
+                        row[c] = o["label"]
+                n = n + 1
+                if records_limit < 0 or n <= records_limit:
+                    yield row
+
+            next_records_url = results.get('nextRecordsUrl', None)
             if records_limit < 0 or n <= records_limit:
-                yield row
+                if next_records_url:
+                    results = self.client.make_api_call(next_records_url)
+                    if results:
+                        results_to_process = True

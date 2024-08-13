@@ -4,8 +4,8 @@
         "description": "Define a preset that DSS users can use to authenticate themselves on Salesforce. The plugin will work with per-user credentials.",
         "icon": "icon-cloud"
     },
-    "defaultDefinableInline": true,
-    "defaultDefinableAtProjectLevel": true,
+    "defaultDefinableInline": false,
+    "defaultDefinableAtProjectLevel": false,
     "pluginParams": [
     ],
 

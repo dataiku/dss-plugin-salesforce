@@ -28,7 +28,7 @@ class MyConnector(Connector):
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
                       partition_id=None, records_limit=-1):
 
-        results = self.client.make_api_call('/services/data/v39.0/queryAll/', {'q': self.QUERY})
+        results = self.client.make_api_call('/queryAll/', {'q': self.QUERY})
 
         log("records_limit: %i" % records_limit)
         log("length initial request: %i" % len(results.get('records')))

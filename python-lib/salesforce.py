@@ -12,11 +12,12 @@ from utils import log
 
 class SalesforceClient(object):
 
-    CREATE_RECORD_ACTION = "/services/data/v39.0/sobjects/{object_name}"
-    UPDATE_RECORD_ACTION = "/services/data/v39.0/sobjects/{object_name}/{object_id}"
+    CREATE_RECORD_ACTION = "sobjects/{object_name}"
+    UPDATE_RECORD_ACTION = "sobjects/{object_name}/{object_id}"
 
     def __init__(self, config):
         self.API_BASE_URL = None
+        self.API_VERSION = "services/data/v61.0"
         self.ACCESS_TOKEN = None
         auth_type = config.get("auth_type", "legacy")
         if auth_type == "legacy":
@@ -36,6 +37,7 @@ class SalesforceClient(object):
             self.ACCESS_TOKEN = token.get("access_token", None)
         if self.API_BASE_URL is None or self.ACCESS_TOKEN is None:
             raise ValueError("JSON token must contain access_token and instance_url")
+        self.API_BASE_URL = self.API_BASE_URL.strip("/")
 
         # Session object for requests
         self.session = requests.Session()
@@ -75,11 +77,11 @@ class SalesforceClient(object):
             'Authorization': 'Bearer %s' % self.ACCESS_TOKEN
         }
         if method == 'get':
-            response = self.session.request(method, self.API_BASE_URL+action, headers=headers, params=parameters, timeout=30)
+            response = self.session.request(method, self.get_base_url(action), headers=headers, params=parameters, timeout=30)
         elif method == 'post':
-            response = self.session.request(method, self.API_BASE_URL+action, headers=headers, data=data, params=parameters, timeout=10)
+            response = self.session.request(method, self.get_base_url(action), headers=headers, data=data, params=parameters, timeout=10)
         elif method == 'patch':
-            response = self.session.request(method, self.API_BASE_URL+action, headers=headers, data=json.dumps(data), params=parameters, timeout=10)
+            response = self.session.request(method, self.get_base_url(action), headers=headers, data=json.dumps(data), params=parameters, timeout=10)
         else:
             raise ValueError('Method should be get, post or patch.')
         log('API %s call: %s' % (method, response.url))
@@ -91,6 +93,13 @@ class SalesforceClient(object):
             return {"error": response.status_code}
         else:
             raise ValueError('API error when calling %s : %s' % (response.url, response.text))
+
+    def get_base_url(self, action):
+        action = action.strip("/")
+        if action.startswith(self.API_VERSION):
+            # action comes from a pagination nextRecordsUrl token
+            return "/".join([self.API_BASE_URL, action])
+        return "/".join([self.API_BASE_URL, self.API_VERSION, action])
 
     def get_token(self, auth_details):
         """

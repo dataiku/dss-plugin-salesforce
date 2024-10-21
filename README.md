@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.0.0 (2024-10-21)**
+
+* New: Using SalesForce v61.0 API
+
 **Version 1.2.1 (2020-12-03)**
 
 * Fixed: Allow empty security token

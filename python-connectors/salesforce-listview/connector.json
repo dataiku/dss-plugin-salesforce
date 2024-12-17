@@ -65,14 +65,14 @@
         {
             "name": "object",
             "label": "Object name",
-            "description": "Examples: 'Lead', 'OpportunityContactRole' ",
+            "description": "Examples: Lead, OpportunityContactRole ",
             "type": "STRING",
             "mandatory" : true
         },
         {
             "name": "listview",
             "label": "List View id (or developerName)",
-            "description": "Example: '00B0Y000004Fdd1UAC' or 'ClosingNextMonth'",
+            "description": "Example: 00B0Y000004Fdd1UAC or ClosingNextMonth",
             "type": "STRING",
             "mandatory" : true
         },

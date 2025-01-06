@@ -28,7 +28,7 @@ class MyConnector(Connector):
     def generate_rows(self, dataset_schema=None, dataset_partitioning=None,
                       partition_id=None, records_limit=-1):
 
-        describe = self.client.make_api_call('/services/data/v39.0/sobjects/%s/listviews/%s/describe' % (self.OBJECT, self.LIST))
+        describe = self.client.make_api_call('sobjects/%s/listviews/%s/describe' % (self.OBJECT, self.LIST))
 
         log(describe)
 
@@ -37,7 +37,7 @@ class MyConnector(Connector):
         if query is None or len(query) < 1:
             raise ValueError("Not able to find a query for this List View")
 
-        results = self.client.make_api_call('/services/data/v39.0/queryAll/', {'q': query})
+        results = self.client.make_api_call('queryAll', {'q': query})
 
         log("records_limit: %i" % records_limit)
         log("length initial request: %i" % len(results.get('records')))

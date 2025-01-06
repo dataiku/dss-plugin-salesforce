@@ -65,7 +65,7 @@
         {
             "name": "report",
             "label": "Report id",
-            "description": "Example: '00O0Y000005gcfAUAQ'",
+            "description": "Example: 00O0Y000005gcfAUAQ (can be found in the report URL)",
             "type": "STRING",
             "mandatory" : true
         },

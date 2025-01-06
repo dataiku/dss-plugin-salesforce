@@ -65,7 +65,7 @@
         {
             "name": "object",
             "label": "Object name",
-            "description": "Examples: 'Lead', 'OpportunityContactRole' ",
+            "description": "Examples: Lead, OpportunityContactRole ",
             "type": "STRING",
             "mandatory" : true
         },

@@ -37,7 +37,7 @@ class MyConnector(Connector):
         if query is None or len(query) < 1:
             raise ValueError("Not able to find a query for this List View")
 
-        results = self.client.make_api_call('queryAll/', {'q': query})
+        results = self.client.make_api_call('queryAll', {'q': query})
 
         log("records_limit: %i" % records_limit)
         log("length initial request: %i" % len(results.get('records')))

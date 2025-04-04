@@ -13,7 +13,7 @@ class SalesforceCreateContactTool(BaseAgentTool):
 
     def get_descriptor(self, tool):
         return {
-            "description": "This tool is a wrapper around Salesforce contact create API, useful when you need to add a new contact to Servicenow. The input to this tool is a dictionary containing the new contact details, e.g. '{'LastName':'Doe', 'FirstName':'John'}'",
+            "description": "This tool is a wrapper around Salesforce contact create API, useful when you need to add a new contact to Salesforce. The input to this tool is a dictionary containing the new contact details, e.g. '{'LastName':'Doe', 'FirstName':'John'}'",
             "inputSchema": {
                 "$id": "https://dataiku.com/agents/tools/search/input",
                 "title": "Create Salesforce contact tool",
@@ -111,7 +111,7 @@ class SalesforceCreateContactTool(BaseAgentTool):
                 "output": "There was a problem while creating the contact: {}".format(error)
             }
         output = 'A contact was created with the following data: {}'.format(record)
-        logger.info("servicenow tool output: {}".format(output))
+        logger.info("salesforce tool output: {}".format(output))
         return {
             "output": output
         }

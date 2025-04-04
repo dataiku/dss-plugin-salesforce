@@ -57,7 +57,7 @@ class SalesforceCreateContactTool(BaseAgentTool):
                     },
                     "MailingStreet": {
                         "type": "string",
-                        "description": "The street name of the contact's address"
+                        "description": "The street name and number of the contact's address"
                     },
                     "MailingCity": {
                         "type": "string",

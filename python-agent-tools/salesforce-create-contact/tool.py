@@ -82,6 +82,14 @@ class SalesforceCreateContactTool(BaseAgentTool):
                     "MobilePhone": {
                         "type": "string",
                         "description": "The mobile phone number of the contact"
+                    },
+                    "AccountName": {
+                        "type": "string",
+                        "description": "Name of the company or organization"
+                    },
+                    "Website": {
+                        "type": "string",
+                        "description": "Website of the company or organization"
                     }
                 },
                 "required": ["LastName", "FirstName"]
@@ -91,7 +99,25 @@ class SalesforceCreateContactTool(BaseAgentTool):
     def invoke(self, input, trace):
         logger.info("salesforce tool invoked with {}".format(input))
         args = input.get("input", {})
+        is_invoked_by_chat = args.get("is_invoked_by_chat", False)
         record = {}
+        account_name = args.get("AccountName")
+        website = args.get("Website")
+        account_id = self.get_account_id(account_name)
+        if not account_id:
+            response = self.client.create_record(
+                "Account",
+                {
+                    "Name": account_name,
+                    "Website": website
+                }
+            )
+            account_id = response.get("id")
+        else:
+            if len(account_id) == 1:
+                # We should handles cases where there is more than one hit. Match on address too ?
+                pass
+            account_id = account_id[0].get("Id")
         record = add_if_applies(args,
                 [
                     "FirstName", "LastName", "Salutation", "Email", "Title",
@@ -102,6 +128,8 @@ class SalesforceCreateContactTool(BaseAgentTool):
                 ]
                 ,record
         )
+        if account_id:
+            record["AccountId"] = account_id
         try:
             response = self.client.create_record("Contact", record)
             logger.info("response to contact creationg: {}".format(response))
@@ -115,7 +143,14 @@ class SalesforceCreateContactTool(BaseAgentTool):
         return {
             "output": output
         }
-
+    
+    def get_account_id(self, account_name):
+        if not account_name:
+            return
+        logger.info("Searching account id for '{}'".format(account_name))
+        query = "SELECT name,id from Account WHERE name = '{}'".format(account_name)
+        results = self.client.make_api_call('/queryAll/', {'q': query})
+        return results.get("records", [])
 
 def add_if_applies(source, keys, destination):
     for key in keys:

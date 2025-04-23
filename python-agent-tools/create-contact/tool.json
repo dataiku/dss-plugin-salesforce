@@ -1,7 +1,7 @@
 {
     "id": "create-salesforce-contact",
     "meta": {
-        "icon": "icon-cloud",
+        "icon": "dku-icon-salesforce",
         "label": "Create a Salesforce contact"
     },
     
@@ -49,6 +49,12 @@
             "mandatory" : true,
             "defaultValue": "${dip.home}/SalesforceToken.json",
             "visibilityCondition": "model.auth_type == 'legacy'"
+        },
+        {
+            "name": "is_interactive_mode",
+            "label": "Interactive mode",
+            "description": "If acticated, can ask the agent for missing details",
+            "type": "BOOLEAN"
         }
     ]
 }

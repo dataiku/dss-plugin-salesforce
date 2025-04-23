@@ -99,12 +99,17 @@ class SalesforceCreateContactTool(BaseAgentTool):
     def invoke(self, input, trace):
         logger.info("salesforce tool invoked with {}".format(input))
         args = input.get("input", {})
-        is_invoked_by_chat = args.get("is_invoked_by_chat", False)
+        is_interactive_mode = args.get("is_interactive_mode", False)
         record = {}
         account_name = args.get("AccountName")
         website = args.get("Website")
         account_id = self.get_account_id(account_name)
         if not account_id:
+            if account_name and is_interactive_mode:
+                return {
+                    "output": "More details are necessary to create the Salesforce contact:"
+                                + "the account does not exists, should I create it ?"
+                }
             response = self.client.create_record(
                 "Account",
                 {

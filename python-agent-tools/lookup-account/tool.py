@@ -21,11 +21,7 @@ class SalesforceLookupAccountTool(BaseAgentTool):
     # ---------------------------------------------------------- DESCRIPTOR
     def get_descriptor(self, tool):
         return {
-            "description": (
-                "Look up a Salesforce account by name. "
-                "Provide {'Name': '<account name>'}. "
-                "Returns the single best‑matched account record."
-            ),
+            "description": "Look up a Salesforce account by name. Provide {'Name': '<account name>'}. Returns the single best‑matched account record.",
             "inputSchema": {
                 "$id": "https://dataiku.com/agents/tools/search/input",
                 "title": "Look up Salesforce account tool",

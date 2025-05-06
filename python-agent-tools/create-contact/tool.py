@@ -99,6 +99,12 @@ class SalesforceCreateContactTool(BaseAgentTool):
     def invoke(self, input, trace):
         logger.info("salesforce tool invoked with {}".format(input))
         args = input.get("input", {})
+
+        trace.span["name"] = "SALESFORCE_CREATE_CONTACT_TOOL_CALL"
+        for key, value in args.items():
+            trace.inputs[key] = value
+        trace.attributes["config"] = self.config
+
         is_interactive_mode = args.get("is_interactive_mode", False)
         record = {}
         account_name = args.get("AccountName")
@@ -106,9 +112,10 @@ class SalesforceCreateContactTool(BaseAgentTool):
         account_id = self.get_account_id(account_name)
         if not account_id:
             if account_name and is_interactive_mode:
+                output_text = "More details are necessary to create the Salesforce contact:" + "the account does not exists, should I create it ?"
+                trace.outputs["output"] = output_text
                 return {
-                    "output": "More details are necessary to create the Salesforce contact:"
-                                + "the account does not exists, should I create it ?"
+                    "output": output_text
                 }
             response = self.client.create_record(
                 "Account",
@@ -140,13 +147,16 @@ class SalesforceCreateContactTool(BaseAgentTool):
             logger.info("response to contact creationg: {}".format(response))
         except Exception as error:
             logger.error("There was an error '{}' while creating the contact".format(error))
+            output_text = "There was a problem while creating the contact: {}".format(error)
+            trace.outputs["output"] = output_text
             return {
-                "output": "There was a problem while creating the contact: {}".format(error)
+                "output": output_text
             }
-        output = 'A contact was created with the following data: {}'.format(record)
-        logger.info("salesforce tool output: {}".format(output))
+        output_text = 'A contact was created with the following data: {}'.format(record)
+        logger.info("salesforce tool output: {}".format(output_text))
+        trace.outputs["output"] = output_text
         return {
-            "output": output
+            "output": output_text
         }
     
     def get_account_id(self, account_name):

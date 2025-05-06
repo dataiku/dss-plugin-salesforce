@@ -1,7 +1,7 @@
 {
     "id": "create-salesforce-contact",
     "meta": {
-        "icon": "dku-icon-salesforce",
+        "icon": "dku-icon-salesforce-20",
         "label": "Create a Salesforce contact"
     },
     

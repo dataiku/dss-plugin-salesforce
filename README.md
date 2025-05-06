@@ -6,9 +6,9 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
-**Version 2.1.0 (2025-04-03)**
+**Version 2.1.0 (2025-05-07)**
 
-- Adding agent tool for contact creation
+- Adding agent tools for contact creation and account lookup
 
 **Version 2.0.0 (2024-10-21)**
 

@@ -1,5 +1,5 @@
 {
-    "id": "lookup-salesforce-contact",
+    "id": "lookup-salesforce-account",
     "meta": {
         "icon": "dku-icon-salesforce-20",
         "label": "Look up Salesforce Account",

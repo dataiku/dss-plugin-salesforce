@@ -2,7 +2,8 @@
     "id": "create-salesforce-contact",
     "meta": {
         "icon": "dku-icon-salesforce-20",
-        "label": "Create a Salesforce contact"
+        "label": "Create Salesforce Contact",
+        "description": "Create a Salesforce contact based on user input"
     },
     
     "params" : [

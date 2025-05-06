@@ -1,8 +1,9 @@
 {
-    "id": "create-salesforce-contact",
+    "id": "lookup-salesforce-contact",
     "meta": {
         "icon": "dku-icon-salesforce-20",
-        "label": "Look up a Salesforce Account"
+        "label": "Look up Salesforce Account",
+        "description": "Look up a Salesforce account by name"
     },
     
     "params" : [

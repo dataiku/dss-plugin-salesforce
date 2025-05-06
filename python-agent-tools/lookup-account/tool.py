@@ -28,7 +28,7 @@ class SalesforceLookupAccountTool(BaseAgentTool):
             ),
             "inputSchema": {
                 "$id": "https://dataiku.com/agents/tools/search/input",
-                "title": "Salesforce account lookup tool",
+                "title": "Look up Salesforce account tool",
                 "type": "object",
                 "properties": {
                     "Name": {

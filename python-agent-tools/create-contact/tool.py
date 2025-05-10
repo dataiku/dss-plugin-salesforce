@@ -103,7 +103,7 @@ class SalesforceCreateContactTool(BaseAgentTool):
         trace.span["name"] = "SALESFORCE_CREATE_CONTACT_TOOL_CALL"
         for key, value in args.items():
             trace.inputs[key] = value
-        trace.attributes["config"] = self.config
+        trace.attributes["config"] = {"salesforce_instance_url": self.client.API_BASE_URL}
 
         is_interactive_mode = args.get("is_interactive_mode", False)
         record = {}

@@ -42,7 +42,7 @@ class SalesforceLookupAccountTool(BaseAgentTool):
         trace.span["name"] = "SALESFORCE_LOOKUP_ACCOUNT_TOOL_CALL"
         for key, value in args.items():
             trace.inputs[key] = value
-        trace.attributes["config"] = self.config
+        trace.attributes["config"] = {"salesforce_instance_url": self.client.API_BASE_URL}
 
         raw_name = args.get("Name", "").strip()
         if not raw_name:

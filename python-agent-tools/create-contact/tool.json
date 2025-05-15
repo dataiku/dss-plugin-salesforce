@@ -1,0 +1,61 @@
+{
+    "id": "create-salesforce-contact",
+    "meta": {
+        "icon": "dku-icon-salesforce",
+        "label": "Create Salesforce Contact",
+        "description": "Create a Salesforce contact based on user input"
+    },
+    
+    "params" : [
+        {
+            "name": "auth_type",
+            "label": "Authentication method",
+            "type": "SELECT",
+            "selectChoices": [
+                {
+                    "value": "oauth",
+                    "label": "Salesforce SSO (per-user)"
+                },
+                {
+                    "value": "basic_login",
+                    "label": "Salesforce login"
+                },
+                {
+                    "value": "legacy",
+                    "label": "JSON token (legacy)"
+                }
+            ],
+            "mandatory": true,
+            "defaultValue": "basic_login"
+        },
+        {
+            "name": "oauth",
+            "label": "Salesforce preset",
+            "type": "PRESET",
+            "parameterSetId": "oauth-credentials",
+            "visibilityCondition": "model.auth_type == 'oauth'"
+        },
+        {
+            "name": "basic_login",
+            "label": "Salesforce login",
+            "type": "PRESET",
+            "parameterSetId": "salesforce-login",
+            "visibilityCondition": "model.auth_type == 'basic_login'"
+        },
+        {
+            "name": "token",
+            "label": "JSON token",
+            "description": "JSON, or path to a file containing the JSON",
+            "type": "STRING",
+            "mandatory" : true,
+            "defaultValue": "${dip.home}/SalesforceToken.json",
+            "visibilityCondition": "model.auth_type == 'legacy'"
+        },
+        {
+            "name": "is_interactive_mode",
+            "label": "Interactive mode",
+            "description": "If acticated, can ask the agent for missing details",
+            "type": "BOOLEAN"
+        }
+    ]
+}

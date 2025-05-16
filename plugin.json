@@ -5,7 +5,7 @@
 		"label": "Salesforce",
 		"description": "Fetch data from Salesforce",
 		"author": "Dataiku (Jérémy Grèze & Alexandre Bourret)",
-		"icon": "icon-cloud",
+		"icon": "icon-salesforce",
 		"licenseInfo": "Apache Software License version 2",
 		"url": "https://www.dataiku.com/dss/plugins/info/salesforce.html",
 		"tags": ["Connector", "CRM"],

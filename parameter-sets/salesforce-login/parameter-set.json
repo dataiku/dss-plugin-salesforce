@@ -2,7 +2,7 @@
     "meta" : {
         "label": "Salesforce login with Username-Password",
         "description": "Define a Salesforce account.",
-        "icon": "icon-cloud"
+        "icon": "icon-salesforce"
     },
     "defaultDefinableInline": true,
     "defaultDefinableAtProjectLevel": true,

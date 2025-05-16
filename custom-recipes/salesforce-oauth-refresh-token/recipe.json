@@ -1,7 +1,8 @@
 {
     "meta" : {
         "label": "Salesforce - Refresh the JSON token (legacy)",
-        "description": "Recipe to refresh the JSON token and save it on disk. Alternatively, you can use other authentication methods, see plugin's documentation."
+        "description": "Recipe to refresh the JSON token and save it on disk. Alternatively, you can use other authentication methods, see plugin's documentation.",
+        "icon": "icon-salesforce"
     },
 
     "kind": "PYTHON",

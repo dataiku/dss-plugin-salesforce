@@ -1,7 +1,8 @@
 {
     "meta" : {
         "label": "Salesforce - Write recipe",
-        "description": "Create or upate records of an Object"
+        "description": "Create or upate records of an Object",
+        "icon": "icon-salesforce"
     },
 
     "kind": "PYTHON",

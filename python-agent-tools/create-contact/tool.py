@@ -96,6 +96,12 @@ class SalesforceCreateContactTool(BaseAgentTool):
             }
         }
 
+    def load_sample_query(self, tool):
+        return {
+            "LastName": "The contact's last name",
+            "FirstName": "The contact's first name"
+        }
+
     def invoke(self, input, trace):
         logger.info("salesforce tool invoked with {}".format(input))
         args = input.get("input", {})

@@ -36,6 +36,11 @@ class SalesforceLookupAccountTool(BaseAgentTool):
             }
         }
 
+    def load_sample_query(self, tool):
+        return {
+            "Name": "Exact or partial account name"
+        }
+
     def invoke(self, input, trace):
         args = input.get("input", {})
 

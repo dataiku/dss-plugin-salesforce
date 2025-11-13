@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.1.1 (2025-11-13)**
+
+- Adding load sample query function
+
 **Version 2.1.0 (2025-05-07)**
 
 - Adding agent tools for contact creation and account lookup

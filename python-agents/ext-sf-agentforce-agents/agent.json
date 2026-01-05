@@ -1,0 +1,24 @@
+{
+    "meta": {
+        "label": "Salesforce Agentforce",
+        "description": "Chat with an Agentforce agent using Salesforce OAuth",
+        "icon": "icon-salesforce"
+    },
+    "supportsImageInputs": false,
+    "params": [
+        {
+            "name": "oauth",
+            "label": "Salesforce preset",
+            "type": "PRESET",
+            "parameterSetId": "oauth-credentials",
+            "mandatory": true
+        },
+        {
+            "name": "agent_id",
+            "label": "Agent ID",
+            "type": "STRING",
+            "mandatory": true,
+            "description": "Agentforce Agent ID (for example 0Xx...)"
+        }
+    ]
+}

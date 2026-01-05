@@ -85,7 +85,7 @@ class SalesforceClient(object):
         else:
             raise ValueError('Method should be get, post or patch.')
         log('API %s call: %s' % (method, response.url))
-        if ((response.status_code == 200 and method == 'get') or (response.status_code == 201 and method == 'post')):
+        if ((response.status_code == 200 and method in ['get', 'post']) or (response.status_code == 201 and method == 'post')):
             return response.json()
         elif (response.status_code == 204 and method == 'patch'):
             return {}
@@ -96,6 +96,8 @@ class SalesforceClient(object):
 
     def get_base_url(self, action):
         action = action.strip("/")
+        if action.startswith("http"):
+            return action
         if action.startswith(self.API_VERSION):
             # action comes from a pagination nextRecordsUrl token
             return "/".join([self.API_BASE_URL, action])

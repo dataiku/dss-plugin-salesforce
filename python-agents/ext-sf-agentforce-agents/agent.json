@@ -10,7 +10,7 @@
             "name": "oauth",
             "label": "Salesforce preset",
             "type": "PRESET",
-            "parameterSetId": "oauth-credentials",
+            "parameterSetId": "af-oauth-credentials",
             "mandatory": true
         },
         {

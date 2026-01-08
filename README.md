@@ -6,6 +6,11 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.2.0 (2026-01-08)**
+
+- Adding Read timeout parameter with default value set to 120 instead of 30
+- Adding Write timeout parameter with default value set to 10 like before
+
 **Version 2.1.1 (2025-11-13)**
 
 - Adding load sample query function

@@ -15,7 +15,8 @@ class SalesforceClient(object):
     CREATE_RECORD_ACTION = "sobjects/{object_name}"
     UPDATE_RECORD_ACTION = "sobjects/{object_name}/{object_id}"
 
-    def __init__(self, config):
+    def __init__(self, config, plugin_config):
+        self.plugin_config = plugin_config
         self.API_BASE_URL = None
         self.API_VERSION = "services/data/v61.0"
         self.ACCESS_TOKEN = None
@@ -39,6 +40,10 @@ class SalesforceClient(object):
             raise ValueError("JSON token must contain access_token and instance_url")
         self.API_BASE_URL = self.API_BASE_URL.strip("/")
 
+        # Timeouts
+        self.read_timeout = self.get_timeout_from_config("read_timeout", 120)
+        self.write_timeout = self.get_timeout_from_config("write_timeout", 10)
+
         # Session object for requests
         self.session = requests.Session()
         # Retry strategy (cf http://stackoverflow.com/a/35504626/4969056)
@@ -46,6 +51,17 @@ class SalesforceClient(object):
                         backoff_factor=2)
         self.session.mount('https://', HTTPAdapter(max_retries=retries))
 
+    def get_timeout_from_config(self, key, default, min=10):
+        try:
+            timeout = self.plugin_config.get(key, default)
+        except Exception as e:
+            log("get_timeout_from_config warning: {}".format(e))
+            timeout = default
+
+        if timeout < min:
+            timeout = min
+        return timeout
+    
     def create_record(self, object_name, salesforce_object):
         salesforce_object.pop('Id', None)
         response = self.make_api_call(
@@ -77,11 +93,11 @@ class SalesforceClient(object):
             'Authorization': 'Bearer %s' % self.ACCESS_TOKEN
         }
         if method == 'get':
-            response = self.session.request(method, self.get_base_url(action), headers=headers, params=parameters, timeout=30)
+            response = self.session.request(method, self.get_base_url(action), headers=headers, params=parameters, timeout=self.read_timeout)
         elif method == 'post':
-            response = self.session.request(method, self.get_base_url(action), headers=headers, data=data, params=parameters, timeout=10)
+            response = self.session.request(method, self.get_base_url(action), headers=headers, data=data, params=parameters, timeout=self.write_timeout)
         elif method == 'patch':
-            response = self.session.request(method, self.get_base_url(action), headers=headers, data=json.dumps(data), params=parameters, timeout=10)
+            response = self.session.request(method, self.get_base_url(action), headers=headers, data=json.dumps(data), params=parameters, timeout=self.write_timeout)
         else:
             raise ValueError('Method should be get, post or patch.')
         log('API %s call: %s' % (method, response.url))

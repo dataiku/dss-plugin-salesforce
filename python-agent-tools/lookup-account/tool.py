@@ -16,7 +16,7 @@ class SalesforceLookupAccountTool(BaseAgentTool):
 
     # ------------------------------------------------------------- CONFIG
     def set_config(self, config, plugin_config):
-        self.client = SalesforceClient(config)
+        self.client = SalesforceClient(config, plugin_config)
 
     # ---------------------------------------------------------- DESCRIPTOR
     def get_descriptor(self, tool):

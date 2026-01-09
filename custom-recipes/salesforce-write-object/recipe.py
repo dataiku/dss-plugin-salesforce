@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import dataiku
-from dataiku.customrecipe import get_output_names_for_role, get_recipe_config, get_input_names_for_role
+from dataiku.customrecipe import (
+    get_output_names_for_role,
+    get_recipe_config,
+    get_input_names_for_role,
+    get_plugin_config
+)
 import json
 from salesforce import SalesforceClient
 
@@ -21,7 +26,7 @@ object_name = config.get('object_name', None)
 if object_name is None:
     raise Exception("Object name has to be set")
 
-client = SalesforceClient(config)
+client = SalesforceClient(config, get_plugin_config())
 
 incoming_dataset_name = get_input_names_for_role('incoming_dataset_name')
 incoming_dataset = dataiku.Dataset(incoming_dataset_name[0])

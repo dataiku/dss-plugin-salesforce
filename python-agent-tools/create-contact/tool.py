@@ -9,7 +9,7 @@ logger = SafeLogger("salesforce plugin")
 class SalesforceCreateContactTool(BaseAgentTool):
     def set_config(self, config, plugin_config):
         self.config = config
-        self.client = SalesforceClient(config)
+        self.client = SalesforceClient(config, plugin_config)
 
     def get_descriptor(self, tool):
         return {

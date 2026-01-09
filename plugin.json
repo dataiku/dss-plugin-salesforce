@@ -8,8 +8,8 @@
         "icon": "icon-salesforce",
         "licenseInfo": "Apache Software License version 2",
         "url": "https://www.dataiku.com/dss/plugins/info/salesforce.html",
-        "category": "Connect",
-        "tags": ["Data source", "Recipe", "Dataset", "Agent tool"],
+        "category": "Business Applications",
+        "tags": ["Connector", "CRM", "Business Applications", "Agentic"],
         "supportLevel": "NOT_SUPPORTED"
     },
     "params": [

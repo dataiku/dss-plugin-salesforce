@@ -19,6 +19,14 @@
             "type": "STRING",
             "mandatory": true,
             "description": "Agentforce Agent ID (for example 0Xx...)"
+        },
+        {
+            "name": "session_connection",
+            "label": "Session storage connection",
+            "type": "CONNECTION",
+            "mandatory": true,
+            "allowedConnectionTypes": ["PostgreSQL"],
+            "description": "PostgreSQL connection used to persist mapping of Dataiku session & Agentforce sessions for multi-turn conversations"
         }
     ]
 }

@@ -6,10 +6,10 @@ from utils import unnest_json, log
 
 class MyConnector(Connector):
 
-    def __init__(self, config):
-        Connector.__init__(self, config)
+    def __init__(self, config, plugin_config):
+        Connector.__init__(self, config, plugin_config)
 
-        self.client = SalesforceClient(self.config)
+        self.client = SalesforceClient(self.config, self.plugin_config)
 
         self.QUERY = self.config.get("query", "")
         self.RESULT_FORMAT = self.config.get("result_format")

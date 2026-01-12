@@ -6,10 +6,10 @@ from utils import unnest_json, log
 
 class MyConnector(Connector):
 
-    def __init__(self, config):
-        Connector.__init__(self, config)
+    def __init__(self, config, plugin_config):
+        Connector.__init__(self, config, plugin_config)
 
-        self.client = SalesforceClient(self.config)
+        self.client = SalesforceClient(self.config, self.plugin_config)
 
         self.OBJECT = self.config.get("object", "")
         self.LIST = self.config.get("listview", "")

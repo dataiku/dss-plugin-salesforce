@@ -1,15 +1,33 @@
 {
-	"id": "salesforce",
-	"version": "2.1.1",
-	"meta": {
-		"label": "Salesforce",
-		"description": "Fetch data from Salesforce",
-		"author": "Dataiku (Jérémy Grèze & Alexandre Bourret)",
-		"icon": "icon-salesforce",
-		"licenseInfo": "Apache Software License version 2",
-		"url": "https://www.dataiku.com/dss/plugins/info/salesforce.html",
-		"category": "Connect",
-		"tags": ["Data source", "Recipe", "Dataset", "Agent tool"],
-    	"supportLevel": "NOT_SUPPORTED"
-	}
+    "id": "salesforce",
+    "version": "2.2.0",
+    "meta": {
+        "label": "Salesforce",
+        "description": "Fetch data from Salesforce",
+        "author": "Dataiku (Jérémy Grèze & Alexandre Bourret)",
+        "icon": "icon-salesforce",
+        "licenseInfo": "Apache Software License version 2",
+        "url": "https://www.dataiku.com/dss/plugins/info/salesforce.html",
+        "category": "Business Applications",
+        "tags": ["Connector", "CRM", "Business Applications", "Agentic"],
+        "supportLevel": "NOT_SUPPORTED"
+    },
+    "params": [
+        {
+            "name": "read_timeout",
+            "label": "Read timeout",
+            "description": "Number of seconds to wait for a chunk of data to be received (GET request).",
+            "type": "INT",
+            "defaultValue": 120,
+			"minI": 10
+        },
+		{
+            "name": "write_timeout",
+            "label": "Write timeout",
+            "description": "Number of seconds to wait for a chunk of data to be sent (POST/PATCH request).",
+            "type": "INT",
+            "defaultValue": 10,
+			"minI": 10
+        }
+    ]
 }

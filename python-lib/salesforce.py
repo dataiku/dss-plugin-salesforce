@@ -18,7 +18,7 @@ class SalesforceClient(object):
     def __init__(self, config, plugin_config):
         self.plugin_config = plugin_config
         self.API_BASE_URL = None
-        self.API_VERSION = "services/data/v61.0"
+        self.API_VERSION = "services/data/v63.0"
         self.ACCESS_TOKEN = None
         auth_type = config.get("auth_type", "legacy")
         if auth_type == "legacy":

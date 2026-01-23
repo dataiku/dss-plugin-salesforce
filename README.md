@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.2.1 (2026-01-23)**
+
+* New: Using SalesForce v63.0 API
+
 **Version 2.2.0 (2026-01-09)**
 
 - Adding Read timeout parameter with default value set to 120 instead of 30

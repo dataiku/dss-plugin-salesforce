@@ -35,8 +35,12 @@
                     "label": "Salesforce SSO (per-user)"
                 },
                 {
+                    "value": "oauth_client_credentials",
+                    "label": "Client credentials"
+                },
+                {
                     "value": "basic_login",
-                    "label": "Salesforce login"
+                    "label": "Salesforce login (legacy)"
                 },
                 {
                     "value": "legacy",
@@ -44,7 +48,7 @@
                 }
             ],
             "mandatory": true,
-            "defaultValue": "basic_login"
+            "defaultValue": "oauth"
         },
         {
             "name": "oauth",
@@ -52,6 +56,13 @@
             "type": "PRESET",
             "parameterSetId": "oauth-credentials",
             "visibilityCondition": "model.auth_type == 'oauth'"
+        },
+        {
+            "name": "oauth_client_credentials",
+            "label": "Client credentials",
+            "type": "PRESET",
+            "parameterSetId": "oauth-client-credentials",
+            "visibilityCondition": "model.auth_type == 'oauth_client_credentials'"
         },
         {
             "name": "basic_login",

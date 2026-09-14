@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.3.0 (2026-09-14)**
+
+- Add a new preset for Salesforce's "Client Credentials Flow"
+
 **Version 2.2.0 (2026-01-09)**
 
 - Adding Read timeout parameter with default value set to 120 instead of 30

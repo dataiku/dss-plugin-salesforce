@@ -125,17 +125,34 @@ class SalesforceClient(object):
         elif auth_type == ""
         auth_details = config.get(auth_type)
         """
-        data = {
-            "grant_type": "password",
-            "client_id": auth_details.get("client_id"),
-            "client_secret": auth_details.get("client_secret"),
-            "username": auth_details.get("username"),
-            "password": "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
-        }
+        username = auth_details.get("username")
+        password = "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
+        client_id = auth_details.get("client_id")
+        client_secret = auth_details.get("client_secret"),
         if auth_details.get('sandbox', False):
             token_url = "https://test.salesforce.com/services/oauth2/token"
         else:
             token_url = "https://login.salesforce.com/services/oauth2/token"
+        if username and password:
+            grant_type = "password"
+            data = {
+                "grant_type": grant_type,
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "username": username,
+                "password": password
+            }
+        else:
+            grant_type = "client_credentials"
+            data = {
+                "grant_type": grant_type,
+                "client_id": client_id,
+                "client_secret": client_secret
+            }
+            instance_hostname = auth_details.get("instance_hostname", "")
+            if not instance_hostname.startswith("http"):
+                instance_hostname = "https://{}".format(instance_hostname)
+            token_url = "{}/services/oauth2/token".format(instance_hostname.rstrip("/"))
         response = requests.post(token_url, data=data)
         return response.json()
 

@@ -27,6 +27,10 @@
                     "label": "Client credentials"
                 },
                 {
+                    "value": "oauth_jwt_bearer",
+                    "label": "JWT bearer"
+                },
+                {
                     "value": "basic_login",
                     "label": "Salesforce login (legacy)"
                 },
@@ -44,6 +48,13 @@
             "type": "PRESET",
             "parameterSetId": "oauth-credentials",
             "visibilityCondition": "model.auth_type == 'oauth'"
+        },
+        {
+            "name": "oauth_jwt_bearer",
+            "label": "JWT bearer",
+            "type": "PRESET",
+            "parameterSetId": "oauth-jwt-bearer",
+            "visibilityCondition": "model.auth_type == 'oauth_jwt_bearer'"
         },
         {
             "name": "oauth_client_credentials",

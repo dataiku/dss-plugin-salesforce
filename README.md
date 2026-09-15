@@ -8,7 +8,7 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 **Version 2.3.0 (2026-09-14)**
 
-- Add a new preset for Salesforce's "Client Credentials Flow"
+- Add a new preset for Salesforce's "Client Credentials Flow" and "JWT bearer Flow"
 
 **Version 2.2.0 (2026-01-09)**
 

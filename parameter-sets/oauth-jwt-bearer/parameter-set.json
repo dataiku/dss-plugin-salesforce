@@ -2,7 +2,7 @@
     "meta" : {
         "label": "JWT bearer",
         "description": "",
-        "icon": "fas fa-puzzle-piece"
+        "icon": "icon-salesforce"
     },
     "defaultDefinableInline": true,
     "defaultDefinableAtProjectLevel": true,

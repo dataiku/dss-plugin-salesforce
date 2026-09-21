@@ -2,7 +2,7 @@
     "meta" : {
         "label": "Client credentials",
         "description": "",
-        "icon": "fas fa-puzzle-piece"
+        "icon": "icon-salesforce"
     },
     "defaultDefinableInline": true,
     "defaultDefinableAtProjectLevel": true,

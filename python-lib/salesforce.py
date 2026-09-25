@@ -32,6 +32,12 @@ class SalesforceClient(object):
             self.ACCESS_TOKEN = auth_details.get("salesforce_oauth", None)
             instance_hostname = auth_details.get("instance_hostname", "")
             self.API_BASE_URL = "https://{instance_hostname}".format(instance_hostname=instance_hostname)
+        elif auth_type == "oauth_sandbox":
+            auth_details = config.get(auth_type)
+            token = {}
+            self.ACCESS_TOKEN = auth_details.get("salesforce_sandbox_oauth", None)
+            instance_hostname = auth_details.get("instance_hostname", "")
+            self.API_BASE_URL = "https://{instance_hostname}".format(instance_hostname=instance_hostname)
         else:
             auth_details = config.get(auth_type)
             token = self.get_token(auth_details)

@@ -36,6 +36,8 @@ class SalesforceClient(object):
             token = self.get_token(auth_details)
             self.API_BASE_URL = token.get("instance_url", None)
             self.ACCESS_TOKEN = token.get("access_token", None)
+        if not self.ACCESS_TOKEN:
+            raise ValueError("Could not retrieve the access token")
         if self.API_BASE_URL is None or self.ACCESS_TOKEN is None:
             raise ValueError("JSON token must contain access_token and instance_url")
         self.API_BASE_URL = self.API_BASE_URL.strip("/")
@@ -125,6 +127,8 @@ class SalesforceClient(object):
         elif auth_type == ""
         auth_details = config.get(auth_type)
         """
+        if not auth_details:
+            raise Exception("Please select a credential preset")
         username = auth_details.get("username")
         password = "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
         client_id = auth_details.get("client_id")
@@ -153,8 +157,17 @@ class SalesforceClient(object):
             if not instance_hostname.startswith("http"):
                 instance_hostname = "https://{}".format(instance_hostname)
             token_url = "{}/services/oauth2/token".format(instance_hostname.rstrip("/"))
-        response = requests.post(token_url, data=data)
-        return response.json()
+        try:
+            response = requests.post(token_url, data=data)
+            json_response = response.json()
+        except Exception as error:
+            raise Exception("Could not retrieve the access token: {}".format(error))
+        if "error" in json_response or "error_description" in json_response:
+            raise Exception("Error while retrieving the acces token: {} {}".format(
+                json_response.get("error", ""),
+                json_response.get("error_description", "")
+            ))
+        return json_response
 
     def get_json(self, input):
         """

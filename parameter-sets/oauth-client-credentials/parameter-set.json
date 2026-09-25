@@ -1,0 +1,31 @@
+{
+    "meta" : {
+        "label": "Client credentials",
+        "description": "",
+        "icon": "icon-salesforce"
+    },
+    "defaultDefinableInline": true,
+    "defaultDefinableAtProjectLevel": true,
+    "pluginParams": [
+    ],
+    "params": [
+        {
+            "name": "instance_hostname",
+            "label": "Instance Hostname",
+            "description": "You can find it in your browser's address bar. For example: company.my.salesforce.com or na7.salesforce.com",
+            "type": "STRING"
+        },
+        {
+            "name": "client_id",
+            "label": "Consumer key",
+            "description": "",
+            "type": "STRING"
+        },
+        {
+            "name": "client_secret",
+            "label": "Consumer secret",
+            "description": "",
+            "type": "PASSWORD"
+        }
+    ]
+}

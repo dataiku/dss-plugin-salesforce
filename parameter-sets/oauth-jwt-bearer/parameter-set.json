@@ -1,0 +1,37 @@
+{
+    "meta" : {
+        "label": "JWT bearer",
+        "description": "",
+        "icon": "icon-salesforce"
+    },
+    "defaultDefinableInline": true,
+    "defaultDefinableAtProjectLevel": true,
+    "pluginParams": [
+    ],
+    "params": [
+        {
+            "name": "instance_hostname",
+            "label": "Instance Hostname",
+            "description": "You can find it in your browser's address bar. For example: company.my.salesforce.com or na7.salesforce.com",
+            "type": "STRING"
+        },
+        {
+            "name": "client_id",
+            "label": "Consumer key",
+            "description": "",
+            "type": "STRING"
+        },
+        {
+            "name": "username",
+            "label": "User email",
+            "description": "",
+            "type": "STRING"
+        },
+        {
+            "name": "private_key",
+            "label": "Private key",
+            "description": "from -----BEGIN PRIVATE KEY to END PRIVATE KEY-----",
+            "type": "PASSWORD"
+        }
+    ]
+}

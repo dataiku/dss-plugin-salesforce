@@ -4,6 +4,7 @@ This files contains kind of "wrapper functions" for Salesforce API and utility f
 
 import json
 import requests
+import time
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 import os.path
@@ -132,7 +133,8 @@ class SalesforceClient(object):
         username = auth_details.get("username")
         password = "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
         client_id = auth_details.get("client_id")
-        client_secret = auth_details.get("client_secret"),
+        client_secret = auth_details.get("client_secret")
+        private_key = auth_details.get("private_key", "")
         if auth_details.get('sandbox', False):
             token_url = "https://test.salesforce.com/services/oauth2/token"
         else:
@@ -145,6 +147,13 @@ class SalesforceClient(object):
                 "client_secret": client_secret,
                 "username": username,
                 "password": password
+            }
+        elif username and private_key:
+            grant_type = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+            assertion = build_jwt_assertion(client_id, username, private_key, token_url)
+            data = {
+                "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                "assertion": assertion
             }
         else:
             grant_type = "client_credentials"
@@ -191,3 +200,18 @@ class SalesforceClient(object):
                 raise ValueError("Unable to read the JSON: %s" % input)
 
         return obj
+
+
+def build_jwt_assertion(client_id, user_email, private_key, login_url):
+    import jwt
+    EXPIRES_IN_SECONDS = 180
+    now = int(time.time())
+    audience = login_url.rstrip("/")
+    payload = {
+        "iss": client_id,
+        "sub": user_email,
+        "aud": audience,
+        "exp": now + EXPIRES_IN_SECONDS,
+    }
+    assertion = jwt.encode(payload, private_key, algorithm="RS256")
+    return assertion

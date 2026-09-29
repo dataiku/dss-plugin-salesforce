@@ -4,6 +4,7 @@ This files contains kind of "wrapper functions" for Salesforce API and utility f
 
 import json
 import requests
+import time
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 import os.path
@@ -31,11 +32,19 @@ class SalesforceClient(object):
             self.ACCESS_TOKEN = auth_details.get("salesforce_oauth", None)
             instance_hostname = auth_details.get("instance_hostname", "")
             self.API_BASE_URL = "https://{instance_hostname}".format(instance_hostname=instance_hostname)
+        elif auth_type == "oauth_sandbox":
+            auth_details = config.get(auth_type)
+            token = {}
+            self.ACCESS_TOKEN = auth_details.get("salesforce_sandbox_oauth", None)
+            instance_hostname = auth_details.get("instance_hostname", "")
+            self.API_BASE_URL = "https://{instance_hostname}".format(instance_hostname=instance_hostname)
         else:
             auth_details = config.get(auth_type)
             token = self.get_token(auth_details)
             self.API_BASE_URL = token.get("instance_url", None)
             self.ACCESS_TOKEN = token.get("access_token", None)
+        if not self.ACCESS_TOKEN:
+            raise ValueError("Could not retrieve the access token")
         if self.API_BASE_URL is None or self.ACCESS_TOKEN is None:
             raise ValueError("JSON token must contain access_token and instance_url")
         self.API_BASE_URL = self.API_BASE_URL.strip("/")
@@ -125,19 +134,55 @@ class SalesforceClient(object):
         elif auth_type == ""
         auth_details = config.get(auth_type)
         """
-        data = {
-            "grant_type": "password",
-            "client_id": auth_details.get("client_id"),
-            "client_secret": auth_details.get("client_secret"),
-            "username": auth_details.get("username"),
-            "password": "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
-        }
+        if not auth_details:
+            raise Exception("Please select a credential preset")
+        username = auth_details.get("username")
+        password = "{}{}".format(auth_details.get("password", ""), auth_details.get("security_token", ""))
+        client_id = auth_details.get("client_id")
+        client_secret = auth_details.get("client_secret")
+        private_key = auth_details.get("private_key", "")
         if auth_details.get('sandbox', False):
             token_url = "https://test.salesforce.com/services/oauth2/token"
         else:
             token_url = "https://login.salesforce.com/services/oauth2/token"
-        response = requests.post(token_url, data=data)
-        return response.json()
+        if username and password:
+            grant_type = "password"
+            data = {
+                "grant_type": grant_type,
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "username": username,
+                "password": password
+            }
+        elif username and private_key:
+            grant_type = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+            assertion = build_jwt_assertion(client_id, username, private_key, token_url)
+            data = {
+                "grant_type": grant_type,
+                "assertion": assertion
+            }
+        else:
+            grant_type = "client_credentials"
+            data = {
+                "grant_type": grant_type,
+                "client_id": client_id,
+                "client_secret": client_secret
+            }
+            instance_hostname = auth_details.get("instance_hostname", "")
+            if not instance_hostname.startswith("http"):
+                instance_hostname = "https://{}".format(instance_hostname)
+            token_url = "{}/services/oauth2/token".format(instance_hostname.rstrip("/"))
+        try:
+            response = requests.post(token_url, data=data)
+            json_response = response.json()
+        except Exception as error:
+            raise Exception("Could not retrieve the access token: {}".format(error))
+        if "error" in json_response or "error_description" in json_response:
+            raise Exception("Error while retrieving the acces token: {} {}".format(
+                json_response.get("error", ""),
+                json_response.get("error_description", "")
+            ))
+        return json_response
 
     def get_json(self, input):
         """
@@ -161,3 +206,18 @@ class SalesforceClient(object):
                 raise ValueError("Unable to read the JSON: %s" % input)
 
         return obj
+
+
+def build_jwt_assertion(client_id, user_email, private_key, login_url):
+    import jwt
+    EXPIRES_IN_SECONDS = 180
+    now = int(time.time())
+    audience = login_url.rstrip("/")
+    payload = {
+        "iss": client_id,
+        "sub": user_email,
+        "aud": audience,
+        "exp": now + EXPIRES_IN_SECONDS,
+    }
+    assertion = jwt.encode(payload, private_key, algorithm="RS256")
+    return assertion

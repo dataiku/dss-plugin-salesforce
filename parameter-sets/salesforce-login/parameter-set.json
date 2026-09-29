@@ -1,7 +1,7 @@
 {
     "meta" : {
         "label": "Salesforce login with Username-Password",
-        "description": "Define a Salesforce account.",
+        "description": "⚠️ This authentication method is to be deprecated by Salesforce",
         "icon": "icon-salesforce"
     },
     "defaultDefinableInline": true,

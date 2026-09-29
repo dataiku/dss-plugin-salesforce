@@ -152,7 +152,7 @@ class SalesforceClient(object):
             grant_type = "urn:ietf:params:oauth:grant-type:jwt-bearer"
             assertion = build_jwt_assertion(client_id, username, private_key, token_url)
             data = {
-                "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                "grant_type": grant_type,
                 "assertion": assertion
             }
         else:

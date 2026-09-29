@@ -27,6 +27,24 @@
             "label": "Instance Hostname",
             "description": "You can find it in your browser's address bar. For example: company.my.salesforce.com or na7.salesforce.com",
             "type": "STRING"
+        },
+        {
+            "name": "authorizationEndpoint",
+            "label": "Authorization Endpoint",
+            "description": "Optional. Default: https://login.salesforce.com/services/oauth2/authorize",
+            "type": "STRING"
+        },
+        {
+            "name": "tokenEndpoint",
+            "label": "Token endpoint",
+            "description": "Optional. Default: https://login.salesforce.com/services/oauth2/token",
+            "type": "STRING"
+        },
+        {
+            "name": "scope",
+            "label": "Scopes",
+            "description": "Optional. Default: api refresh_token full",
+            "type": "STRING"
         }
     ]
 }

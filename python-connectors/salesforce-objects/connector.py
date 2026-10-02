@@ -1,7 +1,7 @@
 from dataiku.connector import Connector
 import json
-from salesforce import SalesforceClient
-from utils import log
+from salesforce_client import SalesforceClient
+from salesforce_utils import log
 import six
 
 

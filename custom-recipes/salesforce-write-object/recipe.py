@@ -7,7 +7,7 @@ from dataiku.customrecipe import (
     get_plugin_config
 )
 import json
-from salesforce import SalesforceClient
+from salesforce_client import SalesforceClient
 
 
 # Output

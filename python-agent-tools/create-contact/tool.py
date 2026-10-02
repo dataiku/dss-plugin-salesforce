@@ -1,6 +1,6 @@
 from dataiku.llm.agent_tools import BaseAgentTool
-from salesforce import SalesforceClient
-from safe_logger import SafeLogger
+from salesforce_client import SalesforceClient
+from salesforce_safe_logger import SafeLogger
 
 
 logger = SafeLogger("salesforce plugin")

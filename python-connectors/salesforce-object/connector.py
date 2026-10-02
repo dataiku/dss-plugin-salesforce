@@ -1,7 +1,7 @@
 from dataiku.connector import Connector
 import json
-from salesforce import SalesforceClient
-from utils import unnest_json, log
+from salesforce_client import SalesforceClient
+from salesforce_utils import unnest_json, log
 
 
 class MyConnector(Connector):

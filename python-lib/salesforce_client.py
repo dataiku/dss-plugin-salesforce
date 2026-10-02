@@ -8,7 +8,7 @@ import time
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 import os.path
-from utils import log
+from salesforce_utils import log
 
 
 class SalesforceClient(object):
@@ -70,7 +70,7 @@ class SalesforceClient(object):
         if timeout < min:
             timeout = min
         return timeout
-    
+
     def create_record(self, object_name, salesforce_object):
         salesforce_object.pop('Id', None)
         response = self.make_api_call(

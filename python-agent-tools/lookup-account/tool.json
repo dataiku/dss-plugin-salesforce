@@ -5,7 +5,7 @@
         "label": "Look up Salesforce Account",
         "description": "Look up a Salesforce account by name"
     },
-    
+
     "params" : [
         {
             "name": "auth_type",
@@ -34,7 +34,7 @@
                 },
                 {
                     "value": "legacy",
-                    "label": "JSON token (legacy)"
+                    "label": "JSON token (⚠️ deprecated)"
                 }
             ],
             "mandatory": true,

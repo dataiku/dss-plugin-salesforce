@@ -40,7 +40,7 @@
                 },
                 {
                     "value": "legacy",
-                    "label": "JSON token (legacy)"
+                    "label": "JSON token (⚠️ deprecated)"
                 }
             ],
             "mandatory": true,

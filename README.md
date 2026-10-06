@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.4.0 (2026-10-02)**
+
+- Add scopes, token and authorization endpoints overrides to the SSO preset
+
 **Version 2.3.0 (2026-09-21)**
 
 - Add a new "Client Credentials Flow" preset

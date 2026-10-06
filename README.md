@@ -11,6 +11,8 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 - Add a new "Client Credentials Flow" preset
 - Add a new "JWT bearer Flow" preset
 - Add a new sandbox SSO preset
+- Deprecate "Username-Password" preset
+- Deprecate "JSON token" authentication method
 
 **Version 2.2.0 (2026-01-09)**
 

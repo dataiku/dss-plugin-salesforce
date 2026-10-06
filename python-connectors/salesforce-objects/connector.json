@@ -36,7 +36,7 @@
                 },
                 {
                     "value": "basic_login",
-                    "label": "Salesforce login (deprecated)"
+                    "label": "Salesforce login (⚠️ deprecated)"
                 },
                 {
                     "value": "legacy",

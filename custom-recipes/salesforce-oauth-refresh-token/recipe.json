@@ -1,6 +1,6 @@
 {
     "meta" : {
-        "label": "Salesforce - Refresh the JSON token (deprecated)",
+        "label": "Salesforce - Refresh the JSON token (⚠️ deprecated)",
         "description": "⚠️ This authentication method is to be deprecated by Salesforce. Recipe to refresh the JSON token and save it on disk.",
         "icon": "icon-salesforce"
     },

@@ -21,7 +21,7 @@ class SalesforceClient(object):
         self.API_BASE_URL = None
         self.API_VERSION = "services/data/v61.0"
         self.ACCESS_TOKEN = None
-        auth_type = config.get("auth_type", "legacy")
+        auth_type = config.get("auth_type", "oauth")
         if auth_type == "legacy":
             token = self.get_json(config.get("token"))
             self.API_BASE_URL = token.get("instance_url", None)
@@ -70,7 +70,7 @@ class SalesforceClient(object):
         if timeout < min:
             timeout = min
         return timeout
-    
+
     def create_record(self, object_name, salesforce_object):
         salesforce_object.pop('Id', None)
         response = self.make_api_call(

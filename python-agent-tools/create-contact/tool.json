@@ -5,7 +5,7 @@
         "label": "Create Salesforce Contact",
         "description": "Create a Salesforce contact based on user input"
     },
-    
+
     "params" : [
         {
             "name": "auth_type",
@@ -30,11 +30,11 @@
                 },
                 {
                     "value": "basic_login",
-                    "label": "Salesforce login (deprecated)"
+                    "label": "Salesforce login (⚠️ deprecated)"
                 },
                 {
                     "value": "legacy",
-                    "label": "JSON token (legacy)"
+                    "label": "JSON token (⚠️ deprecated)"
                 }
             ],
             "mandatory": true,

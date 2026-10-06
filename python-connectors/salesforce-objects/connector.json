@@ -36,11 +36,11 @@
                 },
                 {
                     "value": "basic_login",
-                    "label": "Salesforce login (deprecated)"
+                    "label": "Salesforce login (⚠️ deprecated)"
                 },
                 {
                     "value": "legacy",
-                    "label": "JSON token (legacy)"
+                    "label": "JSON token (⚠️ deprecated)"
                 }
             ],
             "mandatory": true,

@@ -4,6 +4,10 @@
         "description" : "A connector to get the results of a Report"
     },
 
+    "cobuild": {
+        "supported": true
+    },
+
     "readable" : true,
     "writable" : false,
 

@@ -4,6 +4,10 @@
         "description" : "A connector to get the results of a List View"
     },
 
+    "cobuild": {
+        "supported": true
+    },
+
     "readable" : true,
     "writable" : false,
 

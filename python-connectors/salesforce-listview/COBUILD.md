@@ -1,0 +1,7 @@
+- Use this dataset to read records selected by an existing Salesforce list view.
+- Select an accessible preset matching `auth_type`: `oauth` uses the `oauth` parameter from `oauth-credentials`; `oauth_sandbox` uses `oauth_sandbox` from `oauth-sandbox-credentials`; `oauth_client_credentials` uses `oauth_client_credentials` from `oauth-client-credentials`; `oauth_jwt_bearer` uses `oauth_jwt_bearer` from `oauth-jwt-bearer`.
+- Use presets as opaque references. If authentication is incomplete, ask the user to finish setup in DSS settings; do not request tokens, passwords, client secrets, or private keys in chat.
+- Set `object` to the exact object API name, such as `Account`, and `listview` to the list view identifier used by the Salesforce API. Do not substitute the view's display label or invent an identifier; ask the user when it is unknown.
+- The connector describes the list view to obtain its SOQL query, executes it through `queryAll`, and follows pagination automatically. It fails if the list view has no query; this dataset has no separate query or row-limit parameter.
+- `result_format="readable"` flattens nested objects into dot-separated column names and replaces null values with empty strings. `result_format="json"` returns each record as a JSON string in the `json` column.
+- This dataset is read-only and cannot be a recipe output. Use the Salesforce write recipe to create or update records. Saving configuration does not fetch records; previewing and reading access Salesforce. Inspect the detected schema before referencing columns.

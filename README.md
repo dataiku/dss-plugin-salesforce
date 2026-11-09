@@ -6,6 +6,10 @@ Documentation: https://www.dataiku.com/product/plugins/salesforce/
 
 ### Changelog
 
+**Version 2.5.0 (2026-11-09)**
+
+- Added Cobuild support to the Salesforce datasets and write recipe
+
 **Version 2.4.0 (2026-10-02)**
 
 - Add scopes, token and authorization endpoints overrides to the SSO preset

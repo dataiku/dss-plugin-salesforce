@@ -4,6 +4,10 @@
         "description" : "A simple connector to list available objects"
     },
 
+    "cobuild": {
+        "supported": true
+    },
+
     "readable" : true,
     "writable" : false,
 

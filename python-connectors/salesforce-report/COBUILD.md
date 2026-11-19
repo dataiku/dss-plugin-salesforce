@@ -4,4 +4,4 @@
 - Set `report` to the report ID from its Salesforce URL, not its name or the full URL. Ask for the ID if it is unknown.
 - The connector requests report details and reads the returned detail rows; it does not paginate or make asynchronous report requests. Do not assume it returns every source record; use a SOQL dataset when full record extraction is required.
 - `result_format="readable"` uses report detail column identifiers as column names and cell display labels as values. `result_format="json"` preserves each row's cell objects as a JSON string in the `json` column.
-- This dataset is read-only and cannot be a recipe output. Use the Salesforce write recipe to create or update records. Saving configuration does not fetch records; previewing and reading access Salesforce. Inspect the detected schema before referencing columns.
+- This dataset is read-only and cannot be a recipe output. Use the Salesforce write recipe to create or update records. Cobuild may read from Salesforce during creation or configuration updates to detect and save the schema. Inspect the detected schema before referencing columns.

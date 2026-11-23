@@ -4,6 +4,10 @@
         "description" : "A connector to get the results of a specified SOQL query"
     },
 
+    "cobuild": {
+        "supported": true
+    },
+
     "readable" : true,
     "writable" : false,
 

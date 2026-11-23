@@ -4,6 +4,10 @@
         "description" : "A connector to get the records of an Object"
     },
 
+    "cobuild": {
+        "supported": true
+    },
+
     "readable" : true,
     "writable" : false,
 

@@ -5,6 +5,10 @@
         "icon": "icon-salesforce"
     },
 
+    "cobuild": {
+        "supported": true
+    },
+
     "kind": "PYTHON",
 
     "inputRoles": [
